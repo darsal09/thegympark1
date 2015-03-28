@@ -1,0 +1,29 @@
+
+TABLE
+{
+	id INT( 11 ) NO None AUTO_INCREMENT
+	season ENUM( 'Fall', 'Winter', 'Spring', 'Summer' ) NO Fall
+	year INT( 11 ) NO None
+	addedOn TIMESTAMP NO CURRENT_TIMESTAMP
+	start_date DATE NO None
+	end_date DATE NO None
+	PRIMARY KEY( id )
+}
+
+DROP PROCEDURE tgp_season_add$$
+CREATE PROCEDURE tgp_season_add( IN season VARCHAR(100), IN year INT, IN sDate DATE, IN eDate DATE )
+BEGIN
+	INSERT INTO 
+	tgp_class_season( season, year, start_date, end_date )
+	VALUES( season, year, sDate, eDate );
+	
+	SELECT LAST_INSERT_ID();
+END$$
+
+DROP PROCEDURE tgp_season_update$$
+CREATE PROCEDURE tgp_season_update( IN sID INT, IN season ENUM( 'FALL', 'Winter', 'Spring', 'Summer' ), IN year INT, IN sDate DATE, IN eDate DATE )
+BEGIN
+	UPDATE tgp_class_season
+	SET season = season, year = year, start_date = sDate, end_date = eDate
+	WHERE id = sID;
+END$$

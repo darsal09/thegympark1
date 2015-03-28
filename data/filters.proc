@@ -1,0 +1,118 @@
+
+CREATE PROCEDURE tgp_filter_add( IN fTitle VARCHAR( 150 ), IN fDesc TEXT )
+BEGIN
+	INSERT INTO
+	tgp_newsletter_filters( title, descriptoin)
+	VALUES( fTitle, fDesc);
+END$$
+
+DROP PROCEDURE tgp_filters_get_age$$
+CREATE PROCEDURE tgp_filters_get_age( IN sAge DATE, IN eAge DATE )
+BEGIN
+	SELECT ts.*, tsci.email, tp.email AS parent_email
+	FROM tgp_students ts
+	LEFT JOIN tgp_student_contact_info tsci ON tsci.student_id = ts.id
+	LEFT JOIN tgp_parents tp ON tp.student_id = ts.id
+	WHERE ts.dob BETWEEN eAge AND sAge
+	ORDER BY ts.last, ts.first, ts.dob;
+END$$
+
+DROP PROCEDURE tgp_filters_get_category_students$$
+CREATE PROCEDURE tgp_filters_get_category_students( IN cID INT )
+BEGIN
+	SELECT ts.*, tsc.email AS email, tp.email AS parent_email, tc.category_id AS cID
+	FROM tgp_classes tc 
+	INNER JOIN tgp_class_students tcs ON tcs.class_id = tc.class_id
+	INNER JOIN tgp_students ts ON ts.id = tcs.student_id
+	LEFT JOIN tgp_student_contact_info tsc ON tsc.student_id = ts.id
+	LEFT JOIN tgp_parents tp ON tp.student_id = ts.id
+	WHERE tc.category_id = cID
+	GROUP BY ts.id
+	ORDER BY ts.last, ts.first;
+END$$
+
+DROP PROCEDURE tgp_filters_get_class_students$$
+CREATE PROCEDURE tgp_filters_get_class_students( IN cID INT )
+BEGIN
+	SELECT ts.*, tsc.email AS email, tp.email AS parent_email, tcs.class_id AS clID, tc.title_id AS ctID, tc.category_id AS cID, tc.tgp_program_id AS pID
+	FROM tgp_classes tc
+	LEFT JOIN tgp_class_students tcs ON tcs.class_id = tc.class_id
+	LEFT JOIN tgp_students ts ON ts.id = tcs.student_id
+	LEFT JOIN tgp_student_contact_info tsc ON tsc.student_id = tcs.student_id
+	LEFT JOIN tgp_parents tp ON tp.student_id = tcs.student_id
+	WHERE tc.class_id = cID
+	ORDER BY ts.last, ts.first;
+END$$
+
+DROP PROCEDURE tgp_filters_get_class_title_students$$
+CREATE PROCEDURE tgp_filters_get_class_title_students( IN ctID INT )
+BEGIN
+	SELECT ts.*, tsci.email, tp.email AS parent_email, ct.id AS ctID, tc.class_id AS clID, ct.program_id AS pID, ct.category_id AS cID
+	FROM class_titles ct 
+	INNER JOIN tgp_classes tc ON tc.title_id = ct.id
+	INNER JOIN tgp_class_students tcs ON tcs.class_id = tc.class_id
+	INNER JOIN tgp_students ts ON ts.id = tcs.student_id
+	LEFT JOIN tgp_student_contact_info tsci ON tsci.student_id = tcs.student_id
+	LEFT JOIN tgp_parents tp ON tp.student_id = tcs.student_id
+	WHERE ct.id = ctID
+	ORDER BY ts.last, ts.first;
+END$$
+
+DROP PROCEDURE tgp_filter_get_day_students$$
+CREATE PROCEDURE tgp_filter_get_day_students( IN day ENUM( 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday') )
+BEGIN
+	SELECT ts.*, tsci.email, tp.email AS parent_email
+	FROM tgp_classes tc
+	INNER JOIN tgp_class_students tcs ON tcs.class_id = tc.class_id
+	LEFT JOIN tgp_students ts ON ts.id = tcs.student_id
+	LEFT JOIN tgp_student_contact_info tsci ON tsci.student_id = ts.id
+	LEFT JOIN tgp_parents tp ON tp.student_id = ts.id
+	WHERE tc.weekday = day
+	ORDER BY ts.last, ts.first;
+END$$
+
+DROP PROCEDURE tgp_filter_get_month_students$$
+CREATE PROCEDURE tgp_filter_get_month_students( IN sMonth VARCHAR( 2 ), IN eMonth VARCHAR( 2 ), IN fType BOOLEAN )
+BEGIN
+	IF fType THEN
+		SELECT ts.*, tsci.email, tp.email AS parent_email
+		FROM tgp_students ts
+		LEFT JOIN tgp_student_contact_info tsci ON tsci.student_id = ts.id
+		LEFT JOIN tgp_parents tp ON tp.student_id = ts.id
+		WHERE EXTRACT( MONTH FROM ts.dob ) NOT BETWEEN eMonth AND sMonth
+		ORDER BY ts.last, ts.first, ts.dob;		
+	ELSE
+		SELECT ts.*, tsci.email, tp.email AS parent_email
+		FROM tgp_students ts
+		LEFT JOIN tgp_student_contact_info tsci ON tsci.student_id = ts.id
+		LEFT JOIN tgp_parents tp ON tp.student_id = ts.id
+		WHERE EXTRACT( MONTH FROM ts.dob ) BETWEEN sMonth AND eMonth
+		ORDER BY ts.last, ts.first, ts.dob;
+	END IF;
+END$$
+
+DROP PROCEDURE tgp_filters_get_program_students$$
+CREATE PROCEDURE tgp_filters_get_program_students( IN pID INT )
+BEGIN
+	SELECT ts.*, tsci.email, tp.email AS parent_email, tc.tgp_program_id AS pID, tc.category_id AS cID, tc.title_id AS ctID, tc.class_id AS clID
+	FROM tgp_classes tc 
+	INNER JOIN tgp_class_students tcs ON tcs.class_id = tc.class_id
+	INNER JOIN tgp_students ts ON ts.id = tcs.student_id
+	LEFT JOIN tgp_student_contact_info tsci ON tsci.student_id = ts.id
+	LEFT JOIN tgp_parents tp ON tp.student_id = ts.id
+	WHERE tc.tgp_program_id = pID
+	ORDER BY ts.last, ts.first;
+END$$
+
+DROP PROCEDURE tgp_filters_get_time_students$$
+CREATE PROCEDURE tgp_filters_get_time_students( IN sTime TIME, IN eTime TIME )
+BEGIN
+	SELECT ts.*, tsci.email, tp.email AS parent_email
+	FROM tgp_classes tc
+	INNER JOIN tgp_class_students tcs ON tcs.class_id = tc.class_id
+	INNER JOIN tgp_students ts ON ts.id = tcs.student_id
+	INNER JOIN tgp_student_contact_info tsci ON tsci.student_id = ts.id
+	LEFT JOIN tgp_parents tp ON tp.student_id = ts.id
+	WHERE tc.start_time BETWEEN sTime AND eTIme
+	ORDER BY ts.last, ts.first;
+END$$

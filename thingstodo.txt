@@ -1,0 +1,5 @@
+
+
+Work on the email make sure it can send emails to the participants.
+
+setting limits for classes so that participants who are not in that range cannot register. 

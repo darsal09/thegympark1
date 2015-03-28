@@ -1,0 +1,420 @@
+*
+{
+	padding:0px;
+	margin:0px;
+}
+HTML
+{
+	background: rgb(5, 120, 24);
+}
+BODY
+{
+	color:black;
+	font-size:17px;
+	font-family:calibri;
+}
+
+I
+{
+	color:silver;
+}
+
+.tables
+{
+	background:#FFF;
+	width:100%;
+	border-spacing:0px;
+	border-radius:15px;
+	padding-left:5px;
+}
+
+#header
+{
+	overflow:hidden;
+	position:relative;
+	height:150px;
+	padding-left:10px;
+	margin-bottom:25px;
+	padding-bottom:10px;
+	background-image:url('http://localhost/thegympark/images/background.png');
+}
+
+#header DIV
+{
+	margin:0 auto;
+	overflow:hidden;
+	position:relative;	
+}
+#bodies
+{
+	margin:0 auto;
+	width:1000px;
+	background-color:white;
+	color:black;
+	min-height:500px;
+	position:relative;
+}
+H1, LABEL
+{
+	color:#008029;
+	font-weight:bold;
+
+}
+A
+{
+	text-decoration:none;
+}
+
+#bodies P, #bodies H1, #bodies H2, #bodies LI, #bodies UL, #bodies OL
+{
+	padding:10px;
+}
+
+#logo
+{
+	float:left;
+}
+
+#menu
+{
+	float:right;
+	width:70%;
+}
+
+#menu P
+{
+	text-align:right;
+	padding:10px;
+	padding-right:0px;
+	height:50px;
+}	
+
+#menu P A
+{
+	font-size:18px;
+	text-decoration:none;
+	font-weight:bold;
+	color:#BDAC2B;
+	padding:10px;
+	margin:2px;
+}
+
+#menu P.bottommenu
+{
+	margin-top:40px;
+	padding-right:5px;
+	
+}
+
+#menu P.bottommenu A
+{
+	background-color:#536F87;
+	box-shadow: 1px 1px 3px #898989;
+	border-radius:5px;
+	margin:0px;
+}
+#menu P A:last-child
+{
+	margin-right:0px;
+}
+
+#menu P.topmenu A
+{
+	font-size:15px;
+}
+
+#menu P A:hover
+{
+	border-radius:5px;
+	box-shadow: 1px 1px 3px #898989;
+	color:black;
+}
+
+#menu P.bottommenu A:hover
+{
+	background-color:white;
+}
+
+#menu P A:active
+{
+	color:black;
+}
+#footer
+{
+	height:190px;
+	width:100%;
+	overflow:hidden;
+	text-align:center;
+	background-image: url( 'http://localhost/thegympark/images/footer.png' );
+}
+.links
+{
+	background:#A77733;
+	color:silver;
+	text-decoration:none;
+	font-size:18px;
+	font-weight:bold;
+	padding:5px;
+	border:1px groove silver;
+	font-family:calibri;
+}
+.links:hover
+{
+	color:white;
+}
+INPUT
+{
+	padding:5px;
+	font-size:18px;
+}
+INPUT[ type=text ], INPUT[ type=password ]
+{
+	width:350px;
+}
+TEXTAREA
+{
+	width:650px;
+	height:250px;
+}
+INPUT[ type=submit ]
+{
+	border-top-radius:2px;
+	color:#A77733;
+	font-weight:bold;
+}
+INPUT[ type=checkbox ]
+{
+	margin:7px;
+}
+LABEL
+{
+	font-weight:bold;
+	font-size:16px;
+	font-family:calibri;
+}
+SELECT OPTION
+{
+	padding:5px;
+}
+#footer DIV A
+{
+	color: rgb(88, 77, 77);
+	text-decoration:none;
+}
+.error
+{
+	background:yellow;
+	color:black;
+	font-size:17px;
+	font-weight:bold;
+	margin-top:10px;
+	margin-bottom:10px;
+	padding:10px;
+}
+H2
+{
+	background:#D6EFF9;
+	box-shadow: 0px 1px 1px #898989;
+	color:rgb(5, 120, 24);
+}
+#quickLinks
+{
+	width:245px;
+	float:left;
+	padding-left:5px;
+	padding-right:2px;
+}
+#mainContent
+{
+	width:740px;
+	float:left;
+	min-height:500px;
+	overflow:auto;
+	padding-right:5px;
+	position:relative;
+}
+
+TH
+{
+	border-bottom:2px solid black;
+	background-color:#A5AA44;
+	color:#DDDDDF;
+	padding:5px;
+	height:60px;
+	font-size:20px;
+}
+
+TR
+{
+	background:#EFEFEF;	
+}
+
+TH A
+{
+	font-size:20px;
+	font-weight:bold;
+	text-decoration:none;
+}
+
+TH A:hover
+{
+	text-decoration:underline;
+}
+
+TD
+{
+	border-bottom:1px solid black;
+	color:white;
+	height:50px;
+	width:100px;
+	padding:10px;
+	border-right:1px dotted white;
+	text-align:center;
+}
+
+TD:first-child
+{
+	text-align:left;
+}
+
+TD:last-child
+{
+	border-right:0px;
+}
+
+TD A
+{
+	font-weight:bold;
+	color:white;
+}
+
+TD P A
+{
+	font-weight:bold;
+	color:green;
+}
+
+.addClass
+{
+	border-spacing:0px;
+	width:100%;
+}
+
+.addClass TD
+{
+	border:0px;
+}
+
+.classeven
+{
+	background:#DFDFDF;
+}
+
+.classodd
+{
+	background:#EFEFEF;
+}
+
+TD.title
+{
+	border:2px solid black;
+}
+
+#memberships
+{
+	background:#EfEfEf;
+	padding:20px;
+	border-radius: 15px;
+	box-shadow: 0px 0px 3px #A9A9A9;
+}
+
+#memberships P
+{
+	padding-left:0px;
+}
+
+.
+features
+{
+	background:#EFEFEF;
+	font-weight:bold;
+	border-radius: 7px;
+	border-radius: 7px;
+	box-shadow: 0px 0px 3px #A9A9A9;
+}
+
+.objects
+{
+	float:left;
+	position:relative;
+	height:105px;
+	width:130px;
+	text-align:center;
+	background:#EFEFEF;
+	border-radius: 5px;
+	box-shadow: 1px 1px 1px #A9A9A9;
+	margin:5px;
+}
+
+.objects:hover
+{
+	background:#AFAFAF;
+	box-shadow: 1px 1px 1px #AFAFAF;
+	cursor:pointer;
+	color:#EFEFEF;
+}
+
+.objects:hover A
+{
+	color:#EFEFEF;
+}
+
+.objects A
+{
+	font-weight:bold;
+	font-size:20px;
+	color:#AEAEAE;
+}
+.action
+{
+	background:yellow;
+	border-radius:5px;
+	font-size:18px;
+	box-shadow:1px 1px 1px #AFAFAF;
+}
+.mini
+{
+	width:350px;
+	height:100px;
+}
+.action_links
+{
+	float:right;
+}
+FIELDSET
+{
+	padding:10px;
+	border:0px;
+}
+FIELDSET LEGEND
+{
+	background:#D6EFF9;
+	border:1px solid #DFDFDF;
+	border-radius:3px;
+	padding:10px;
+}
+FIELDSET FIELDSET
+{
+	border-radius:10px;
+	border:1px solid #DEDEDE;
+	margin:5px;
+}
+FIELDSET FIELDSET LEGEND
+{
+	background:#AFAFAF;
+	border:1px solid #DFDFDF;
+	border-radius:5px;
+	padding:10px;
+	color:white;
+	font-size:20px;
+}

@@ -1,0 +1,108 @@
+
+//Insert programs
+CREATE PROCEDURE tgp_add_program( IN inTitle VARCHAR( 100 ), IN inDescription TEXT )
+BEGIN
+	INSERT INTO tgp_programs ( title, description )
+	VALUES( inTitle, inDescription );
+END$$
+
+CREATE PROCEDURE tgp_update_program( IN programID INT, IN programTitle VARCHAR( 150 ), IN programDescription TEXT )
+BEGIN 
+	UPDATE tgp_programs
+	SET title = programTitle, description = programDescription
+	WHERE program_id = programID;	
+END$$
+
+
+CREATE PROCEDURE tgp_get_programs()
+BEGIN
+	SELECT program_id, title
+	FROM tgp_programs
+	ORDER BY title ASC;
+END$$
+
+CREATE PROCEDURE tgp_get_program( IN programID INT )
+BEGIN
+	SELECT *
+	FROM tgp_programs 
+	WHERE program_id = programID;
+END$$
+
+CREATE PROCEDURE tgp_get_program_categories( IN programID INT )
+BEGIN
+	SELECT *
+	FROM tgp_classes_categories
+	WHERE program_id = programID
+	ORDER BY title;
+END$$
+
+CREATE PROCEDURE tgp_get_program_category_classes( IN programID INT, IN categoryID INT )
+BEGIN
+	IF programID > 0 THEN
+		IF categoryID > 0 THEN
+			SELECT c.*, p.title AS program_title, cc.title AS category_title
+			FROM tgp_classes c
+			INNER JOIN tgp_programs p ON p.program_id = programID
+			INNER JOIN tgp_classes_categories cc ON cc.cc_id = categoryID
+			WHERE c.tgp_program_id = programID AND c.tgp_class_category_id = categoryID
+			ORDER BY c.title;
+		ELSE
+			SELECT -1;
+		END IF;
+	ELSE
+		SELECT -1;
+	END IF;
+END$$
+
+CREATE PROCEDURE tgp_get_program_classes( IN programID INT )
+BEGIN
+	SELECT c.*, ct.title AS title, p.title AS program_title, cc.title AS category_title
+	FROM tgp_classes c
+	INNER JOIN class_titles ct ON ct.id = c.title_id
+	INNER JOIN tgp_programs p ON p.program_id = programID
+	INNER JOIN tgp_classes_categories cc ON cc.cc_id = c.tgp_class_category_id
+	WHERE c.tgp_program_id = programID
+	ORDER BY c.weekday, c.start_time, ct.title;
+END$$
+
+//This procedure would display the featured classes in a program
+CREATE PROCEDURE tgp_get_program_featured_classes( IN programID INT )
+BEGIN
+	SELECT c.*, ct.title AS title 
+	FROM tgp_classes c
+	INNER JOIN class_titles ct ON ct.id = c.title_id
+	WHERE c.tgp_program_id = programID AND c.program_featured = 'Y'
+	ORDER BY c.weekday, c.start_time, ct.title;
+END$$
+
+CREATE PROCEDURE tgp_get_program_class_titles( IN programID INT )
+BEGIN 
+	SELECT *
+	FROM class_titles
+	WHERE program_id = programID
+	ORDER BY title;
+END$$
+
+//it only deletes a program that doesn't have a class or categories in it
+CREATE PROCEDURE tgp_delete_program( IN programID INT )
+BEGIN
+	DECLARE programClassRowsCount INT;
+	DECLARE programCategoryRowsCount INT;
+
+	SELECT COUNT( * )
+	FROM tgp_classes 
+	WHERE tgp_program_id = programID
+	INTO programClassRowsCount;
+
+	SELECT COUNT( * )
+	FROM tgp_classes 
+	WHERE tgp_program_id = programID
+	INTO programCategoryRowsCount;
+
+	IF programClassRowsCount = 0 AND programCategoryRowsCount =  0 THEN
+		DELETE FROM tgp_programs WHERE program_id = programID;
+		SELECT 1;
+	ELSE
+		SELECT -1;
+	END IF;
+END$$

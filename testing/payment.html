@@ -1,0 +1,66 @@
+								<p>
+									Price: $<span id=price></span>.00
+								</p>
+								
+								<p>
+									<a id=paidCash class="btn btn-primary btn-lg" href="javascript:paidCash( );">Paid Cash</a>
+								</p>
+								
+								<div class=row>			
+									<input type=hidden id=openPlayStudentID name=openPlayStudentID value="">
+									<input type=hidden id=p_price name=price value="">								
+									<input type=hidden id=p_amount name=amount value="">								
+									<input type=hidden id=packageID name=packageID value="">
+									<input type=hidden id=openPlayID name=openPlayID value="">
+									<input type=hidden id=studentID name=studentID value="">
+									
+									<div class=form-group>
+										<div class=col-md-3>
+											<label class=control-label>Payment Type</label>
+										</div>
+										<div class=col-md-9>
+											<div class=radio>
+												<label><input type=radio name=type value="Cash">Cash</label>
+											</div>
+											<div class=radio>
+												<label><input type=radio name=type value="Check">Check</label>
+											</div>
+											<div class=radio>
+												<label><input type=radio name=type value="Credit">Credit</label>
+											</div>
+											<div class=radio>
+												<label><input type=radio name=type value="Debit">Debit</label>
+											</div>
+											<div class=radio>
+												<label><input type=radio name=type value="Pass">Pass</label>
+											</div>
+											<div class=radio>
+												<label><input type=radio name=type value="Other">Other</label>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class=col-md-3>
+											<label for=discount class=control-label>Discount</label>
+										</div>
+										<div class=col-md-9>
+											<input type=text class=form-control name="discount">
+										</div>
+									</div>
+									<div class="form-group">
+										<div class=col-md-3>
+											<label for=reason_code class=control-label>Reason Code</label>
+										</div>
+										<div class=col-md-9>
+											<input type=text class=form-control name="reason_code">
+										</div>
+									</div>
+									<div class="form-group">
+										<div class=col-md-3>
+											<label for=total class=control-label>Total Due</label>
+										</div>
+										<div class=col-md-9>
+											<input type=text class=form-control name="total">
+										</div>
+									</div>
+								</div>

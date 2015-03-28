@@ -1,0 +1,174 @@
+
+CREATE TABLE api_keys(
+id INT NOT NULL AUTO_INCREMENT,
+api_key VARCHAR(150) NOT NULL,
+title VARCHAR( 150 ) NOT NULL,
+addedOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY( id )
+);
+
+
+CREATE TABLE tgp_class_season(
+id INT NOT NULL AUTO_INCREMENT,
+season ENUM('Fall-Winter', 'Winter-Spring', 'Summer' ) DEFAULT 'Fall-Winter',
+year YEAR NOT NULL,
+start_date DATE NOT NULL,
+end_date DATE NOT NULL,
+addedOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY( id )
+);
+
+CREATE TABLE class_attendance(
+id INT NOT NULL AUTO_INCREMENT,
+class_id INT NOT NULL,
+dateAttended DATE,
+addedOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY( id )
+);
+
+CREATE TABLE tgp_class_season(
+id INT NOT NULL AUTO_INCREMENT,
+class_id INT NOT NULL,
+season_id INT NOT NULL,
+addedOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY( id )
+);
+
+CREATE TABLE class_titles(
+id INT NOT NULL AUTO_INCREMENT,
+price DOUBLE NOT NULL,
+title VARCHAR(150) NOT NULL,
+total_time TIME,
+age_group INT  NOT NULL,
+category_id INT NOT NULL,
+program_id INT NOT NULL,
+half_season DOUBLE NOT NULL,
+type ENUM( 'Fixed', 'Flexible' ) DEFAULT 'Fixed',
+addedOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY( id )
+);
+
+CREATE TABLE openplay_class_set(
+id INT NOT NULL AUTO_INCREMENT,
+class_id INT NOT NULL,
+openplay_id INT NOT NULL,
+addedOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY( id )
+);
+
+CREATE TABLE tgp_emails(
+id INT NOT NULL AUTO_INCREMENT,
+message BLOB NOT NULL,
+subject VARCHAR(250) NOT NULL,
+addedOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY( id )
+);
+
+CREATE TABLE openplay_class_set(
+id INT NOT NULL AUTO_INCREMENT,
+class_id INT NOT NULL,
+openplay_id INT NOT NULL,
+addedOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY( id )
+);
+
+CREATE TABLE tgp_meail_outbox(
+id INT NOT NULL AUTO_INCREMENT,
+participant_id INT NOT NULL,
+email_to VARCHAR(250) NOT NULL,
+header TEXT,
+message  BLOB,
+participant_id INT NOT NULL,
+subject VARCHAR(250 ) NOT NULL,
+addedOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY( id )
+);
+
+CREATE TABLE tgp_email_sent(
+id INT NOT NULL AUTO_INCREMENT,
+class_id INT NOT NULL,
+class_title_id INT NOT NULL,
+email_id INT NOT NULL,
+participant_id INT NOT NULL,
+program_id INT NOT NULL,
+category_id INT NOT NULL,
+sentOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY( id )
+);
+
+CREATE TABLE tgp_emergency_contact(
+id INT NOT NULL AUTO_INCREMENT,
+name VARCHAR(150) NOT NULL,
+relation ENUM( 'Family', 'Friend' ) DEFAULT 'Family',
+student_id INT NOT NULL,
+cellPhone VARCHAR( 30 ) NOT NULL,
+homePhone VARCHAR( 30 ) NOT NULL,
+workPhone VARCHAR( 30 ) NOT NULL,
+addedOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY( id )
+);
+
+CREATE TABLE tgp_memberships(
+id INT NOT NULL AUTO_INCREMENT,
+active ENUM( 'Yes', 'No' ) DEFAULT 'Yes',
+plan_id INT NOT NULL,
+price DOUBLE NOT NULL,
+title VARCHAR( 150 ) NOT NULL,
+type_id INT NOT NULL,
+addedOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY( id )
+);
+
+CREATE TABLE tgp_membership_plans(
+id INT NOT NULL AUTO_INCREMENT,
+title VARCHAR( 150 ) NOT NULL,
+description TEXT,
+addedOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY( id )
+);
+
+CREATE TABLE tgp_newsletter_users(
+id INT NOT NULL AUTO_INCREMENT,
+user_id INT NOT NULL,
+modefied TIMESTAMP,
+status ENUM( 'Active', 'Not Active') DEFAULT 'Active',
+addedOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY( id )
+);
+
+CREATE TABLE tgp_newsletter_user_categories(
+id INT NOT NULL AUTO_INCREMENT,
+category_id INT NOT NULL,
+user_id INT NOT NULL,
+modefied TIMESTAMP,
+status ENUM( 'Active', 'Not Active' ) DEFAULT 'Active',
+addedOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY( id )
+);
+
+CREATE TABLE tgp_studnet_contact_info(
+id INT NOT NULL AUTO_INCREMENT,
+cellPhone VARCHAR( 30 ),
+homePhone VARCHAR( 30 ),
+email VARCHAR( 150 ),
+student_id INT NOT NULL,
+addedOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY( id )
+);
+
+CREATE TABLE tpg_student_school(
+id INT NOT NULL AUTO_INCREMENT,
+name VARCHAR( 150 ) NOT NULL,
+grade VARCHAR( 30 ) NOT NULL,
+student_id INT NOT NULL,
+addedOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY( id )
+);
+
+CREATE TABLE tgp_user_memberships(
+id INT NOT NULL AUTO_INCREMENT,
+membership_id INT NOT NULL,
+user_id INT NOT NULL,
+addedOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY( id )
+);

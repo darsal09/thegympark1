@@ -1,0 +1,43 @@
+Class Management System - 
+Timeframe : 3-4 weeks
+Pricing : 500
+
+What I will do upto my most understanding from what Peter explains to me in our meetings:
+
+1.Design the Database: design the tables after they are approved by Peter
+
+	i. create the tables in the database
+
+2.Build the functionality to add, modify classes into the database.
+
+	i. add a class to the system.
+	ii. modify a class as long the person has the rights to do so like the admin
+	iii. add extra instructors to the class
+
+3.View the classes: filter the class base on Days, Times, ageGroups, Type, Title, etc.
+
+	i. able to filter out class due to specific options.
+
+4.Tracking class changes: keep a history of when things are added, modified and who modefies it.
+
+	i. changing a class time and day
+	ii. adding kids to a class.
+	iii. transfering a kid from a class to another, etc.
+
+6. Develop the weekly calendar to show classes for customers to view and to enroll in it.
+
+	i. customer should be able to view a description of a class with all its information
+
+
+Customer Management system
+5. Link it with customers and their payments and participation in the class.
+
+	i. how many students are in class and their names in it.
+	ii. regular students and trial students in the class
+
+
+You need a list of information you need for each item. These are the questions that you will ask Peter.
+This means questions or information that you'll need from him so that you could meet that timeframe.
+
+You need a general timeframe (2-4 weeks is a general timeframe) for each item
+You need a pricing for each item and information about what you're basing the price on. 

@@ -1,0 +1,48 @@
+DROP PROCEDURE tgp_get_class_titles$$s
+CREATE PROCEDURE tgp_get_class_titles()
+BEGIN
+	SELECT *
+	FROM class_titles
+	ORDER BY title, age_group;
+END$$
+
+
+DROP PROCEDURE tgp_add_class_title$$
+CREATE PROCEDURE tgp_add_class_title( IN type ENUM( 'Fixed', 'Flexible' ), IN title VARCHAR( 150 ), IN ageGroup VARCHAR( 100 ), IN pID INT, IN cID INT, IN tTime INT, IN price DOUBLE, IN 9wPrice DOUBLE )
+BEGIN
+	
+	INSERT INTO class_titles ( title, age_group, program_id, category_id, total_time, price, 9weekPrice, type )
+	VALUES ( title, ageGroup, pID, cID, tTime, price, 9wPrice, type );
+
+	SELECT LAST_INSERT_ID();
+END$$
+
+
+DROP PROCEDURE tgp_get_class_title$$
+CREATE PROCEDURE tgp_get_class_title( IN ctID INT )
+BEGIN
+	SELECT *
+	FROM class_titles
+	ORDER BY title, age_group
+	WHERE id = ctID;
+END$$
+
+DROP PROCEDURE tgp_delete_class_group$$
+CREATE PROCEDURE tgp_delete_class_group( IN cgID INT )
+BEGIN
+	DECLARE classesInClassGroup INT;
+
+	SELECT COUNT( * ) FROM tgp_classes
+	WHERE title_id = cgID INTO classesInClassGroup;
+
+	IF classesInClassGroup = 0 THEN
+		DELETE FROM class_titles
+		WHERE id = cgID;
+	
+		SELECT 1;
+	ELSE
+		SELECT -1;
+	END IF;
+END$$
+
+

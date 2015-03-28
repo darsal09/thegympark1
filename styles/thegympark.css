@@ -1,0 +1,485 @@
+*
+{
+	padding:0px;
+	margin:0px;
+}
+BODY
+{
+	color:black;
+	font-size:17px;
+	font-family:calibri;
+}
+
+I
+{
+	color:silver;
+}
+
+
+.tables
+{
+	background:#FFF;
+	width:100%;
+	border-spacing:0px;
+	border:2px solid #EFEFEF;
+}
+.tables TR TD
+{
+	color:black;
+	padding:7px;
+}
+.tables TR TD A
+{
+	color:green;
+	font-weight:bold;
+}
+.tables TR TD A.classes
+{
+	color:white;
+	font-weight:bold;
+}
+
+#header
+{
+	overflow:hidden;
+	position:relative;
+	height:100px;
+	padding-left:10px;
+	margin-bottom:0px;
+	padding-bottom:10px;
+	background-image:url('http://www.thegympark.com/TheGymParkSystem/images/background.png');
+}
+
+#header DIV
+{
+	margin:0 auto;
+	overflow:hidden;
+	position:relative;	
+}
+#bodies
+{
+	margin:10px auto;
+	width:100%;
+	background-color:white;
+	color:black;
+	min-height:500px;
+	position:relative;
+	
+}
+
+H1, LABEL
+{
+	color:#008029;
+	font-weight:bold;
+
+}
+A
+{
+	text-decoration:none;
+}
+
+#bodies P, #bodies H1, #bodies H2, #bodies LI, #bodies UL, #bodies OL
+{
+	padding:7px;
+}
+
+#logo
+{
+	float:left;
+}
+
+#menu
+{
+	float:right;
+	width:70%;
+}
+
+#menu P
+{
+	text-align:right;
+	padding:10px;
+	padding-right:0px;
+}	
+
+#menu P A
+{
+	font-size:18px;
+	text-decoration:none;
+	font-weight:bold;
+	color:#BDAC2B;
+	padding:10px;
+	margin:2px;
+}
+
+#menu P.bottommenu
+{
+	margin-top:10px;
+	padding-right:5px;
+	
+}
+
+#menu P.bottommenu A
+{
+	background-color:#536F87;
+	box-shadow: 1px 1px 3px #898989;
+	border-radius:5px;
+	margin:0px;
+}
+#menu P A:last-child
+{
+	margin-right:0px;
+}
+
+#menu P.topmenu A
+{
+	font-size:15px;
+}
+
+#menu P A:hover
+{
+	border-radius:5px;
+	box-shadow: 1px 1px 3px #898989;
+	color:black;
+}
+
+#menu P.bottommenu A:hover
+{
+	background-color:white;
+}
+
+#menu P A:active
+{
+	color:black;
+}
+#footer
+{
+	height:190px;
+	width:100%;
+	overflow:hidden;
+	text-align:center;
+	background-image: url( 'http://www.thegympark.com/TheGymParkSystem/images/footer.png' );
+}
+.links
+{
+	background:#A77733;
+	color:silver;
+	text-decoration:none;
+	font-size:18px;
+	font-weight:bold;
+	padding:5px;
+	border:1px groove silver;
+	font-family:calibri;
+}
+.links:hover
+{
+	color:white;
+}
+INPUT
+{
+	padding:5px;
+	font-size:18px;
+}
+TEXTAREA
+{
+	height:250px;
+}
+
+LABEL
+{
+	font-weight:bold;
+	font-size:16px;
+	font-family:calibri;
+}
+SELECT OPTION
+{
+	padding:5px;
+}
+#footer DIV A
+{
+	color: rgb(88, 77, 77);
+	text-decoration:none;
+}
+.error
+{
+	background:yellow;
+	color:black;
+	font-size:17px;
+	font-weight:bold;
+	margin-top:10px;
+	margin-bottom:10px;
+	padding:10px;
+}
+H2
+{
+	color:rgb(5, 120, 24);
+}
+#quickLinks
+{
+	width:245px;
+	float:left;
+	padding-left:5px;
+	padding-right:2px;
+}
+#mainContent
+{
+	width:740px;
+	float:left;
+	min-height:500px;
+	overflow:auto;
+	padding-right:5px;
+	position:relative;
+}
+
+TH
+{
+	border-bottom:2px solid black;
+	background-color:#EBEBEB;
+	color:#00005F;
+	padding:10px;
+	font-size:20px;
+}
+
+TH.noborder
+{
+	border:0px;
+	width:10%;
+}
+
+TR
+{
+	background:#EFEFEF;	
+}
+
+TR:nth-child(even)
+{
+	background:white;
+}
+
+TH A
+{
+	font-size:20px;
+	font-weight:bold;
+	text-decoration:none;
+}
+
+TH A:hover
+{
+	text-decoration:underline;
+}
+
+TD
+{
+	border-bottom:1px solid black;
+	color:black;
+	padding:5px;
+	border-right:1px dotted white;
+	text-align:left;
+}
+
+TD:first-child
+{
+	text-align:left;
+}
+
+TD:last-child
+{
+	border-right:0px;
+}
+
+
+TD P A
+{
+	font-weight:bold;
+	color:green;
+}
+
+.addClass
+{
+	border-spacing:0px;
+	width:100%;
+}
+
+.addClass TD
+{
+	border:0px;
+}
+
+.classeven
+{
+	background:#DFDFDF;
+}
+
+.classodd
+{
+	background:#EFEFEF;
+}
+
+TD.title
+{
+	border:2px solid black;
+}
+
+#memberships
+{
+	background:#EfEfEf;
+	padding:20px;
+	border-radius: 15px;
+	box-shadow: 0px 0px 3px #A9A9A9;
+}
+
+#memberships P
+{
+	padding-left:0px;
+}
+
+.
+features
+{
+	background:#EFEFEF;
+	font-weight:bold;
+	border-radius: 7px;
+	border-radius: 7px;
+	box-shadow: 0px 0px 3px #A9A9A9;
+}
+
+.objects
+{
+	background:#AFAFAF;
+	text-align:center;
+	border-radius: 5px;
+	box-shadow: 1px 1px 1px #A9A9A9;
+	margin:5px;
+}
+
+.objects:hover
+{
+	background:#EFEFEF;
+	box-shadow: 1px 1px 1px #AFAFAF;
+	cursor:pointer;
+	color:#EFEFEF;
+}
+
+.objects:hover A
+{
+	color:#0F0F0F;
+}
+
+.objects A
+{
+	font-weight:bold;
+	font-size:20px;
+	color:#EFEFEF;
+}
+
+.action:hover
+{
+	background:yellow;
+	border-radius:5px;
+	box-shadow:0px 0px 1px #AFAFAF;
+	padding:10px;
+	font-weight:bold;
+}
+
+.action
+{
+	background:#DAEFFF;
+	padding:10px;
+	font-weight:bold;
+	box-shadow:0px 0px 1px #AFAFAF;
+}
+
+.mini
+{
+	width:350px;
+	height:100px;
+}
+.action_links
+{
+	float:right;
+}
+
+.program, FIELDSET
+{
+	padding:10px;
+	border:0px;
+}
+
+.program_title
+{
+	background:#D6EFF9;
+	border:1px solid #DFDFDF;
+	border-radius:3px;
+	padding:10px;
+}
+FIELDSET FIELDSET
+{
+	border-radius:10px;
+	border:1px solid #DEDEDE;
+	margin:5px;
+}
+FIELDSET FIELDSET LEGEND
+{
+	background:#AFAFAF;
+	border:1px solid #DFDFDF;
+	border-radius:5px;
+	padding:10px;
+	color:white;
+	font-size:20px;
+}
+
+.attention
+{
+	background:red;
+	color:white;
+}
+.program_options
+{
+	float:right;
+}
+.clear
+{
+	clear:both;
+}
+.Gold
+{
+	color:gold;
+}
+
+.Silver
+{
+	color:silver;
+}
+
+.Bronze
+{
+	color:bronze;
+}
+
+.objects
+{
+	list-style:none;
+	height:70px;
+}
+
+.successful
+{
+	background:green;
+	color:white;
+}
+
+@-moz-document url-prefix() 
+{
+  fieldset { display: table-cell; }
+}
+
+.round-corners
+{
+	border-radius:5px;
+	padding:10px;
+	margin:5px;
+}
+
+.label-lg
+{
+	font-size:18px;
+}

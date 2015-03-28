@@ -1,0 +1,149 @@
+
+DROP PROCEDURE tgp_admin_get_class_days$$
+CREATE PROCEDURE tgp_admin_get_class_days( IN aDate DATE )
+BEGIN
+	SELECT weekday
+	FROM tgp_classes
+	WHERE start_date <= aDate AND end_date >= aDate
+	GROUP BY weekday
+	ORDER BY weekday;
+END$$
+
+DROP PROCEDURE tgp_admin_participant_exist$$
+CREATE PROCEDURE tgp_admin_participant_exist( IN pFName VARCHAR( 50 ), IN pLName VARCHAR( 70 ), IN pDOB DATE, IN pGender ENUM( 'M', 'F' ) )
+BEGIN
+	SELECT id
+	FROM tgp_students
+	WHERE first = pFName AND last = pLName AND dob = pDOB AND gender = pGender;
+END$$
+
+DROP PROCEDURE tgp_admin_add_student$$
+CREATE PROCEDURE tgp_admin_add_student( IN sFName VARCHAR( 50 ), IN sLNAME VARCHAR( 70 ), IN sDOB DATE, IN sGender ENUM( 'M', 'F' ) )
+BEGIN		
+	INSERT INTO
+	tgp_family( first, last, dob, gender )
+	VALUES( sFName, sLName, sDOB, sGender );
+		
+	SELECT LAST_INSERT_ID();
+END$$
+
+DROP PROCEDURE tgp_admin_student_add_address$$
+CREATE PROCEDURE tgp_admin_student_add_address( IN sID INT, IN sStreet VARCHAR( 250 ), IN sCity VARCHAR( 50 ), IN sState VARCHAR( 2 ), IN sZip VARCHAR( 5 ) )
+BEGIN
+	INSERT INTO 
+	tgp_address( student_id, street, city, state, zip )
+	VALUES( sID, sStreet, sCity, sState, sZip );
+	
+	SELECT LAST_INSERT_ID();
+END$$
+
+DROP PROCEDURE tgp_admin_student_add_school$$
+CREATE PROCEDURE tgp_admin_student_add_school( IN sID INT, IN sName VARCHAR( 150 ), IN sGrade VARCHAR( 30 ) )
+BEGIN
+	INSERT INTO 
+	tgp_student_school( student_id, name, grade)
+	VALUES( sID, sName, sGrade );
+	
+	SELECT LAST_INSERT_ID();
+END$$
+
+DROP PROCEDURE tgp_admin_student_add_parent$$
+CREATE PROCEDURE tgp_admin_student_add_parent( IN sID INT, IN pName VARCHAR( 150 ), IN pCPhone VARCHAR( 20 ), IN pHPhone VARCHAR( 20 ), IN pWPhone VARCHAR( 20 ), IN pEmail VARCHAR( 200 ) )
+BEGIN
+	INSERT INTO
+	tgp_parents( student_id, name, cellPhone, homePhone, workPhone, email )
+	VALUES( sID, pName, pCPhone, pHPhone, pWPhone, pEmail );
+	
+	SELECT LAST_INSERT_ID();
+END$$
+
+DROP PROCEDURE tgp_admin_student_add_caregiver$$
+CREATE PROCEDURE tgp_admin_student_add_caregiver( IN sID INT, IN cName VARCHAR( 150 ), IN cPhone VARCHAR( 20 ) )
+BEGIN
+	INSERT INTO tgp_nannies( student_id, name, phone )
+	VALUES( sID, cName, cPhone );
+	
+	SELECT LAST_INSERT_ID();
+END$$
+
+DROP PROCEDURE tgp_admin_student_add_emergency_contact$$
+CREATE PROCEDURE tgp_admin_student_add_emergency_contact( IN sID INT, IN ecName VARCHAR( 150 ), IN ecRelation VARCHAR( 30 ), IN ecHPhone VARCHAR( 20 ), IN ecCPhone VARCHAR( 20 ), IN ecWPhone VARCHAR( 20 ) )
+BEGIN
+	INSERT INTO tgp_emergency_contact( student_id, name, relation, homePhone, cellPhone, workPhone )
+	VALUES( sID, ecName, ecRelation, ecHPhone, ecCPhone, ecWPhone );
+	
+	SELECT LAST_INSERT_ID();
+END$$
+
+DROP PROCEDURE tgp_admin_student_add_contact_info$$
+CREATE PROCEDURE tgp_admin_student_add_contact_info( IN sID INT, IN cHPhone VARCHAR( 20 ), IN cCPhone VARCHAR( 20 ), IN cEmail VARCHAR( 150 ) )
+BEGIN
+	INSERT INTO 
+	tgp_student_contact_info( student_id, homePhone, cellPhone, email )
+	VALUES( sID, cHPhone, cCPhone, cEmail );
+	
+	SELECT LAST_INSERT_ID();
+END$$
+
+DROP PROCEDURE tgp_admin_class_add_student$$
+CREATE PROCEDURE tgp_admin_class_add_student( IN sID INT, IN cID INT )
+BEGIN
+	INSERT INTO tgp_class_students( student_id, class_id )
+	VALUES( sID, cID );
+	
+	SELECT LAST_INSERT_ID();
+END$$
+
+DROP PROCEDURE tgp_admin_get_student$$
+CREATE PROCEDURE tgp_admin_get_student( IN sID INT )
+BEGIN
+	SELECT *
+	FROM tgp_family
+	WHERE id = sID;
+END$$
+
+CREATE PROCEDURE tgp_admin_get_student_contact_info( IN sID INT )
+BEGIN
+	SELECT *
+	FROM tgp_student_contact_info
+	WHERE student_id = sID;
+END$$
+
+CREATE PROCEDURE tgp_admin_get_student_address( IN sID INT )
+BEGIN
+	SELECT *
+	FROM tgp_address
+	WHERE student_id = sID;
+END$$
+
+DROP PROCEDURE tgp_admin_get_student_parents$$
+CREATE PROCEDURE tgp_admin_get_student_parents( IN sID INT )
+BEGIN
+	SELECT *
+	FROM tgp_parents
+	WHERE student_id = sID
+	ORDER BY name;
+END$$
+
+CREATE PROCEDURE tgp_admin_get_student_school( IN sID INT )
+BEGIN
+	SELECT *
+	FROM tgp_student_school
+	WHERE student_id = sID;
+END$$
+
+CREATE PROCEDURE tgp_admin_get_student_emergency_contact( IN sID INT )
+BEGIN
+	SELECT *
+	FROM tgp_emergency_contact
+	WHERE student_id = sID
+	ORDER BY name;
+END$$
+
+CREATE PROCEDURE tgp_admin_get_student_caregiver( IN sID INT )
+BEGIN
+	SELECT *
+	FROM tgp_nannies
+	WHERE student_id = sID
+	ORDER BY dateAdded, name;
+END$$

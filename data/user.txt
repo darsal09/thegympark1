@@ -1,0 +1,67 @@
+
+//signs up a user
+CREATE PROCEDURE tgp_create_user( IN name VARCHAR( 100 ), IN email VARCHAR( 150 ), IN pswd VARCHAR( 32 ) )
+BEGIN
+	INSERT INTO tgp_users ( uName, uEmail, uPswd )
+	VALUES( name, email, pswd );
+END$$
+
+CREATE PROCEDURE tgp_does_email_exist( IN email VARCHAR( 150 ) )
+BEGIN
+	SELECT uEmail
+	FROM tgp_users
+	WHERE uEmail = email;
+END$$
+
+CREATE PROCEDURE tgp_get_user( IN uID INT )
+BEGIN
+	SELECT * 
+	FROM tgp_users
+	WHERE id = uID;
+END$$
+
+CREATE PROCEDURE tgp_signin_user( IN email VARCHAR( 150 ), IN pswd VARCHAR(32) )
+BEGIN
+	SELECT tu.*, tf.first, tf.last 
+	FROM tgp_users tu
+	LEFT JOIN tgp_family tf ON tf.user_id = tu.id
+	WHERE uEmail = email AND uPswd = pswd;
+END$$
+
+//Memberships
+CREATE PROCEDURE tgp_user_add_membership( IN userID INT, IN membershipID INT )
+BEGIN
+	INSERT INTO 
+	tgp_user_memberships( user_id, membership_id )
+	VALUES( userID, membershipID );
+END$$
+
+CREATE PROCEDURE tgp_user_has_membership( IN userID INT )
+BEGIN
+	DECLARE membershipRows INT;
+
+	SELECT COUNT( * ) 
+	FROM tgp_user_memberships
+	WHERE user_id = userID
+	INTO membershipRows;
+
+	IF membershipRows = 0  THEN
+		SELECT 0;
+	ELSE
+		SELECT 1;
+	END IF;
+END$$
+
+CREATE PROCEDURE tgp_user_get_membership( IN userID INT )
+BEGIN 
+	SELECT * 
+	FROM tgp_user_memberships
+	WHERE user_id = userID;
+END$$
+
+CREATE PROCEDURE tgp_user_last_login( IN userID INT )
+BEGIN 
+	UPDATE tgp_users 
+	SET lastLogIn = NOW()
+	WHERE id = userID;
+END$$

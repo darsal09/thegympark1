@@ -1,0 +1,47 @@
+
+
+
+//Procedures
+
+CREATE PROCEDURE tgp_shopping_cart_add_class( IN cartID VARCHAR( 32 ), IN classID INT, IN classTitleID INT, IN classTitle VARCHAR(250), IN classDays TEXT, IN classType VARCHAR( 50 ), IN classPrice INT, IN classPackage VARCHAR( 250 ) )
+BEGIN
+	DECLARE classQuantity INT;
+	
+	SELECT quantity FROM shopping_cart WHERE user_id = cartID AND class_id = classID AND package = classPackage INTO classQuantity;
+	
+	IF classQuantity IS NULL THEN
+		INSERT INTO shopping_cart ( user_id, class_id, class_title_id, class_title, class_days, class_type, class_price, package ) VALUES( cartID, classID, classTitleID, classTitle, classDays, classType, classPrice, classPackage );
+	ELSE			
+		UPDATE shopping_cart SET quantity = quantity + 1 WHERE user_id = cartID AND class_id = classID AND package = classPackage;
+	END IF;
+END$$
+
+CREATE PROCEDURE tgp_shopping_cart_empty( IN userID VARCHAR(32) )
+BEGIN
+	SELECT COUNT( * ) FROM shopping_cart WHERE user_id = userID;
+END$$
+
+CREATE PROCEDURE tgp_shopping_cart_get_user_classes( IN userID VARCHAR(32) )
+BEGIN
+	SELECT *
+	FROM shopping_cart 
+	WHERE user_id = userID;
+END$$
+
+CREATE PROCEDURE tgp_shopping_cart_update( IN scID INT, IN scQuantity INT )
+BEGIN
+	IF scQuantity < 1 THEN
+		DELETE FROM shopping_cart
+		WHERE sc_id = scID;
+	ELSE
+		UPDATE shopping_cart
+		SET quantity = scQuantity
+		WHERE sc_id = scID;
+	END IF;
+END$$
+
+CREATE PROCEDURE tgp_shopping_cart_remove_classes( IN userID INT )
+BEGIN
+	DELETE FROM shopping_cart
+	WHERE user_id = userID;	
+END$$

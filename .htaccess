@@ -1,0 +1,277 @@
+<IfModule mod_rewrite.c>
+
+  # Enable mod_rewrite
+  RewriteEngine On
+
+  # Specify the folder in which the application resides.
+  # Use / if the application is in the root. 
+  RewriteBase /
+#	RewriteBase /TheGymParkSystem/
+	
+  # Redirect to correct domain to avoid canonicalization problems
+	#RewriteCond %{HTTP_HOST} !^www.thegympark.com [NC]
+	#RewriteRule ^/TheGymParkSystem/(.*)$ http://www.thegympark.com/TheGymParkSystem/$1 [L,R=301]
+	
+  # Redirect URLs ending in /index.php or /index.html to /
+  RewriteCond %{THE_REQUEST} ^GET\ .*/index\.(php|html?)\ HTTP
+  RewriteRule ^(.*)index\.(php|html?)$ $1 [R=301,L]
+	
+	RewriteRule ^etiquette/?$ index.php?action=etiquette [L]
+
+	RewriteRule ^faq/?$ index.php?action=faq [L]
+
+	RewriteRule ^contacts/?$ index.php?action=contact [L]
+
+	RewriteRule ^password/request?$ index.php?action=passwordRequest [L]
+	RewriteRule ^password/sent?$ index.php?action=passwordSent [L]
+	
+
+	RewriteRule ^sign-in/?$ index.php?action=signin [L]
+
+	RewriteRule ^register/?$ index.php?action=signup [L]
+
+	RewriteRule ^log-off/?$ index.php?action=logoff [L]
+
+	RewriteRule ^my-account/?$ index.php?action=myAccount [L]
+
+	RewriteRule ^about-us/?$ index.php?action=aboutus [L]
+
+	RewriteRule ^logged-in/?$ index.php?action=loggedinView [L]
+
+	RewriteRule ^memberships/?$ index.php?action=memberships [L]
+	
+	RewriteRule ^addNewsletter/?$ 						index.php?action=addNewsletter [L]
+	RewriteRule ^newsletter-([0-9]+)/editNewsletter/?$ 	index.php?tgp_newsletter_id=$1&action=addNewsletter [L]
+	RewriteRule ^newsletterCategories/?$ 				index.php?action=newsletterCategories [L]
+	RewriteRule ^newsletterMembers/?$ 					index.php?action=newsletterMembers [L]
+
+	RewriteRule ^addNewsletterMember/?$ 								index.php?action=addNewsletterMember [L]
+	RewriteRule ^newsletter/category-([0-9]+)/addNewsletterMember/?$ 	index.php?tgp_newsletter_category_id=$1&action=addNewsletterMember [L]
+
+	RewriteRule ^newsletterCategories/?$ 						index.php?action=newsletterCategories [L]
+	RewriteRule ^addNewsletterExistingMember/?$ 				index.php?action=addNewsletterExistingMember [L]
+	RewriteRule ^addNewsletterCategory/?$ 						index.php?action=addNewsletterCategory [L]
+	RewriteRule ^newsletter/category-([0-9]+)/editCategory/?$ 	index.php?tgp_newsletter_category_id=$1&action=addNewsletterCategory [L]
+	
+	RewriteRule ^admin/?$ index.php?folder=admin&action=index [L]
+
+	RewriteRule ^admin/categories/?$ 		index.php?folder=admin&action=categories [L]
+
+	
+	RewriteRule ^admin/classes/?$ 					index.php?folder=admin&action=classes [L]
+	RewriteRule ^admin/classes/day/([A-Za-z]+)?$ 	index.php?folder=admin&day=$1&action=classes [L]
+	RewriteRule ^admin/classes/addClasses?$ 					index.php?folder=admin&action=addClasses [L]
+	
+	RewriteRule ^admin/employees/?$ 			index.php?folder=admin&action=employees [L]
+	RewriteRule ^admin/employees/([0-9]+)?$ 			index.php?folder=admin&tgp_employee_id=$1&action=employee [L]
+	
+	RewriteRule ^admin/open-plays/?$ 									index.php?folder=admin&action=openPlays [L]
+	RewriteRule ^admin/open-plays/all?$ 								index.php?folder=admin&action=openPlays&all [L]
+	RewriteRule ^admin/open-plays/([0-9]+)/addClass?$ 						index.php?tgp_openplay_id=$1&folder=admin&action=addClassToOpenPlay [L]
+	RewriteRule ^admin/open-plays/([0-9]+)?$ 							index.php?folder=admin&tgp_open_play_id=$1&action=openPlay [L]
+	RewriteRule ^admin/open-plays/([0-9]+)/addStudent?$ 				index.php?folder=admin&tgp_open_play_id=$1&action=addStudentToOpenPlay [L]
+	RewriteRule ^admin/open-plays/([0-9]+)/addStudent/letter/([A-Z]+)?$ index.php?folder=admin&tgp_open_play_id=$1&letter=$2&action=addStudentToOpenPlay [L]
+	RewriteRule ^admin/open-plays/add?$ 								index.php?folder=admin&action=addOpenPlay [L]
+	RewriteRule ^admin/open-plays/packages?$ 							index.php?folder=admin&action=openPlayPackages [L]
+	RewriteRule ^admin/open-plays/packages/add?$ 						index.php?folder=admin&action=addOpenPlayPackage [L]
+	RewriteRule ^admin/open-plays/packages/([0-9]+)?$ 					index.php?folder=admin&tgp_package_id=$1&action=addopenPlayPackage [L]
+	RewriteRule ^admin/open-plays/packages/([0-9]+)/addStudent?$ 		index.php?folder=admin&tgp_package_id=$1&action=addPackageToStudent [L]
+	
+	
+	RewriteRule ^admin/newsletters/?$ index.php?folder=admin&action=newsletters [L]
+	RewriteRule ^admin/newsletters/categories?$ index.php?folder=admin&action=newsletterCategories [L]
+	RewriteRule ^admin/newsletters/([0-9]+)?$ index.php?folder=admin&tgp_newsletter_id=$1&action=newsletter [L]
+	RewriteRule ^admin/newsletters/([0-9]+)/edit?$ index.php?folder=admin&tgp_newsletter_id=$1&action=editNewsletter [L]
+	RewriteRule ^admin/newsletters/([0-9]+)/send?$ index.php?folder=admin&tgp_newsletter_id=$1&action=sendNewsletter [L]
+	
+	RewriteRule ^admin/Emails/?$ index.php?folder=admin&action=emails [L]
+	
+	RewriteRule ^admin/invoices/?$ index.php?folder=admin&action=invoices [L]
+	
+	RewriteRule ^admin/programs/?$ 																			index.php?folder=admin&action=programs [L]
+	RewriteRule ^admin/programs/([0-9]+)?$ 																	index.php?folder=admin&tgp_program_id=$1&action=program [L]
+	RewriteRule ^admin/programs/([0-9]+)/categories?$ 														index.php?folder=admin&tgp_program_id=$1&action=programCategories [L]
+	RewriteRule ^admin/programs/([0-9]+)/class-groups?$ 													index.php?folder=admin&tgp_program_id=$1&action=programClassGroups [L]
+	RewriteRule ^admin/programs/([0-9]+)/classes?$ 															index.php?folder=admin&tgp_program_id=$1&action=programClasses [L]
+	RewriteRule ^admin/programs/([0-9]+)/categories/([0-9]+)?$ 												index.php?folder=admin&tgp_program_id=$1&tgp_category_id=$2&action=category [L]
+	RewriteRule ^admin/programs/([0-9]+)/categories/([0-9]+)/addClassTitle?$ 								index.php?folder=admin&tgp_program_id=$1&tgp_category_id=$2&action=addClassTitle [L]
+	RewriteRule ^admin/programs/([0-9]+)/categories/([0-9]+)/class-groups?$ 								index.php?folder=admin&tgp_program_id=$1&tgp_category_id=$2&action=classGroups [L]
+	RewriteRule ^admin/programs/([0-9]+)/categories/([0-9]+)/class-groups/([0-9]+)?$ 						index.php?folder=admin&tgp_program_id=$1&tgp_category_id=$2&tgp_class_group_id=$3&action=classGroup [L]
+	RewriteRule ^admin/programs/([0-9]+)/categories/([0-9]+)/class-groups/([0-9]+)/addClass?$ 				index.php?folder=admin&tgp_program_id=$1&tgp_category_id=$2&tgp_class_group_id=$3&action=addClass [L]
+	RewriteRule ^admin/programs/([0-9]+)/categories/([0-9]+)/class-groups/([0-9]+)/classes?$ 				index.php?folder=admin&tgp_program_id=$1&tgp_category_id=$2&tgp_class_group_id=$3&action=classGroupClasses [L]
+	RewriteRule ^admin/programs/([0-9]+)/categories/([0-9]+)/class-groups/([0-9]+)/classes/([0-9]+)?$ 		index.php?folder=admin&tgp_program_id=$1&tgp_category_id=$2&tgp_class_group_id=$3&tgp_class_id=$4&action=class [L]
+	RewriteRule ^admin/programs/([0-9]+)/categories/([0-9]+)/class-groups/([0-9]+)/classes/([0-9]+)/email?$ 								index.php?tgp_program_id=$1&tgp_category_id=$2&tgp_class_group_id=$3&tgp_class_id=$4&action=email [L]
+	RewriteRule ^admin/programs/([0-9]+)/categories/([0-9]+)/class-groups/([0-9]+)/classes/([0-9]+)/addChild?$ 								index.php?folder=admin&tgp_program_id=$1&tgp_category_id=$2&tgp_class_group_id=$3&tgp_class_id=$4&action=addChild [L]
+	RewriteRule ^admin/programs/([0-9]+)/categories/([0-9]+)/class-groups/([0-9]+)/classes/([0-9]+)/addExistingParticipant?$ 				index.php?folder=admin&tgp_program_id=$1&tgp_category_id=$2&tgp_class_group_id=$3&tgp_class_id=$4&action=addExistingParticipant [L]
+	RewriteRule ^admin/programs/([0-9]+)/categories/([0-9]+)/class-groups/([0-9]+)/classes/([0-9]+)/addExistingParticipant/type/([A-Z]+)?$ 	index.php?folder=admin&tgp_program_id=$1&tgp_category_id=$2&tgp_class_group_id=$3&tgp_class_id=$4&type=$5&action=addExistingParticipant [L]
+	RewriteRule ^admin/programs/([0-9]+)/categories/([0-9]+)/class-groups/([0-9]+)/classes/([0-9]+)/students/([0-9]+)?$ 					index.php?folder=admin&tgp_program_id=$1&tgp_category_id=$2&tgp_class_group_id=$3&tgp_class_id=$4&tgp_studen_id=$5&action=classStudent [L]
+
+	RewriteRule ^admin/seasons/?$ 			index.php?folder=admin&action=seasons [L]
+	RewriteRule ^admin/seasons/add?$ 		index.php?folder=admin&action=addSeason [L]
+	RewriteRule ^admin/seasons/([0-9]+)?$ 	index.php?tgp_season_id=$1&folder=admin&action=season [L]
+
+	
+	RewriteRule ^admin/students/?$ 					index.php?folder=admin&action=students [L]
+	RewriteRule ^admin/students/sort/firstname?$ 	index.php?folder=admin&sort=firstname&action=students [L]
+	RewriteRule ^admin/students/sort/dob?$ 			index.php?folder=admin&sort=dob&action=students [L]
+	RewriteRule ^admin/students/([0-9]+)?$ 			index.php?folder=admin&tgp_student_id=$1&action=student [L]
+	
+	RewriteRule ^admin/students/([0-9]+)/edit?$ 	index.php?tgp_edit_student&folder=admin&tgp_student_id=$1&action=student [L]
+	
+	RewriteRule ^admin/students/([0-9]+)/([A-Za-z]+)/([A-Za-z]+)/([A-Za-z]+)?$ 	index.php?tgp_$2_student&option=$3&folder=admin&tgp_student_id=$1&action=student#$4 [L]
+	RewriteRule ^admin/students/([0-9]+)?$ 										index.php?folder=admin&tgp_student_id=$1&action=student [L]
+	RewriteRule ^admin/students/([0-9]+)/addPackage?$ 							index.php?folder=admin&tgp_student_id=$1&action=addPackageToStudent [L]
+	#remove a class from a student
+	RewriteRule ^admin/students/([0-9]+)/classes/([0-9]+)/remove?$ 				index.php?folder=admin&tgp_student_id=$1&tgp_class_id=$2&action=removeClass [L]
+
+	RewriteRule ^admin/students/([0-9]+)/parents/([0-9]+)/edit?$ 				index.php?folder=admin&tgp_student_id=$1&tgp_parent_id=$2&option=edit&action=student [L]
+	
+	RewriteRule ^admin/memberships/?$ 	index.php?folder=admin&action=memberships [L]
+	
+	RewriteRule ^employee/?$ 			index.php?folder=employee&action=index [L]
+	RewriteRule ^employee/students?$ 	index.php?folder=employee&action=students [L]
+	RewriteRule ^employee/open-plays?$ 	index.php?folder=employee&action=openplays [L]
+	
+	RewriteRule ^employee/open-plays/current?$ 								index.php?folder=employee&action=openPlayCurrent [L]
+	RewriteRule ^employee/open-plays/current/([A-Z]+)/?$ 					index.php?folder=employee&letter=$1&action=openPlayCurrent [L]
+	RewriteRule ^employee/open-plays/current/([0-9]+)?$ 					index.php?tgp_openplay_id=$1&folder=employee&action=openPlayCurrent [L]
+	RewriteRule ^employee/open-plays/current/([0-9]+)/([A-Z]+)?$ 			index.php?tgp_openplay_id=$1&letter=$2&folder=employee&action=openPlayCurrent [L]
+	RewriteRule ^employee/open-plays/current/([0-9]+)/sort/([A-Za-z]+)?$ 	index.php?tgp_openplay_id=$1&sort=$2&folder=employee&action=openPlayCurrent [L]
+	
+	RewriteRule ^employee/open-plays/current/addParticipant?$ 				index.php?folder=employee&letter=$1&action=addParticipant [L]
+	
+	RewriteRule ^employee/open-plays/current/students/([0-9]+)/history?$ 						index.php?folder=employee&tgp_student_id=$1&action=studentOpenPlayHistory [L]
+	RewriteRule ^employee/open-plays/current/([0-9]+)/students/([0-9]+)/history?$ 				index.php?tgp_openplay_id=$1&folder=employee&tgp_student_id=$2&action=studentOpenPlayHistory [L]
+	RewriteRule ^employee/open-plays/current/students/([0-9]+)/add?$ 							index.php?folder=employee&tgp_student_id=$1&action=addStudentToOpenPlay [L]
+	RewriteRule ^employee/open-plays/current/students/([0-9]+)/add/([0-9]+)?$ 					index.php?folder=employee&tgp_student_id=$1&tgp_openplay_package_id=$2&action=addStudentToOpenPlay [L]
+	RewriteRule ^employee/open-plays/current/students/([0-9]+)/add/([0-9]+)/payment/([0-9]+)?$ 	index.php?folder=employee&tgp_student_id=$1&tgp_openplay_package_id=$2&tgp_payment_op_id=$3&action=addOpenPlayPayment [L]
+		
+	RewriteRule ^employee/open-plays/current/sort/first/?$ 	index.php?folder=employee&sort=first&action=openPlayCurrent [L]
+	RewriteRule ^employee/open-plays/current/sort/last/?$ 	index.php?folder=employee&sort=last&action=openPlayCurrent [L]
+	RewriteRule ^employee/open-plays/current/sort/amount/?$ index.php?folder=employee&sort=amount&action=openPlayCurrent [L]
+	RewriteRule ^employee/open-plays/current/sort/used/?$ 	index.php?folder=employee&sort=used&action=openPlayCurrent [L]
+	RewriteRule ^employee/classes/([0-9]+)?$ 				index.php?tgp_class_id=$1&folder=employee&action=class [L]
+
+	RewriteRule ^employee/classes?$ 					index.php?folder=employee&action=classes [L]
+	RewriteRule ^employee/classes/current?$ 			index.php?folder=employee&action=currentClasses [L]
+	RewriteRule ^employee/classes/current/([0-9]+)?$ 	index.php?tgp_class_id=$1&folder=employee&action=class [L]
+	
+	
+	RewriteRule ^instructor/?$ 							index.php?folder=instructor&action=index [L]
+
+	
+	RewriteRule ^newsletters/?$ 						index.php?action=newsletters [L]
+	RewriteRule ^newsletter-info/([0-9]+)/?$ 			index.php?tgp_newsletter_id=$1&action=newsletter [L]
+	
+	RewriteRule ^newsletter/category-info/([0-9]+)/?$ 											index.php?tgp_newsletter_category_id=$1&action=newsletterCategory [L]
+	RewriteRule ^newsletter/category-([0-9]+)/addExistingUser?$ 								index.php?tgp_newsletter_category_id=$1&action=addNewsletterCategoryExistingUsers [L]
+	RewriteRule ^newsletter/category-([0-9]+)/member-([0-9]+)/removeNewsletterCategoryMember?$ 	index.php?tgp_newsletter_category_id=$1&tgp_newsletter_member_id=$2&action=removeNewsletterCategoryMember [L]
+	RewriteRule ^newsletter/category-([0-9]+)/deleteNewsletterCategory?$ 						index.php?tgp_newsletter_category_id=$1&action=deleteNewsletterCategory [L]	
+
+	RewriteRule ^sendNewsletter/?$ 																index.php?action=sendNewsletter [L]
+	RewriteRule ^newsletter-([0-9]+)/sendNewsletter/?$ 											index.php?tgp_newsletter_id=$1&action=sendNewsletter [L]
+
+	RewriteRule ^addFilter/?$ 						index.php?action=addFilter [L]
+	RewriteRule ^newsletterFilters/?$ 				index.php?action=newsletterFilters [L]
+	RewriteRule ^newsletterFilters/edit-([0-9]+)?$ 	index.php?tgp_newsletter_filter_id=$1&action=newsletterFilters [L]
+	RewriteRule ^newsletterSetUp/?$ 				index.php?action=newsletterSetUp [L]
+	RewriteRule ^mailChimp/?$ 						index.php?action=mailChimp [L]
+	
+	
+	RewriteRule ^classes/?$ 						index.php?action=classes [L]
+	
+	RewriteRule ^email/?$ 							index.php?action=email [L]
+	
+	
+	RewriteRule ^membership-([0-9]+)/Gold?$ 		index.php?tgp_membership_id=$1&action=gold [L]
+	RewriteRule ^membership-([0-9]+)/Silver?$ 		index.php?tgp_membership_id=$1&action=silver [L]
+	RewriteRule ^membership-([0-9]+)/Bronze?$ 		index.php?tgp_membership_id=$1&action=bronze [L]
+
+	RewriteRule ^my-members/([0-9]+)?$ 				index.php?tgp_my_member_id=$1&action=myMember [L]
+	RewriteRule ^my-members/([0-9]+)/edit?$ 		index.php?tgp_my_member_id=$1&action=myMemberEdit [L]
+
+	
+	
+	RewriteRule ^program-([0-9]+)/category-([0-9]+)/class-([0-9]+)/classRegister?$ 										index.php?tgp_program_id=$1&tgp_category_id=$2&tgp_class_id=$3&action=classRegister [L]
+	
+	RewriteRule ^program-([0-9]+)/category-([0-9]+)/class-group-([0-9]+)/class-([0-9]+)/classSignUp/Full?$ 				index.php?tgp_program_id=$1&tgp_category_id=$2&tgp_class_title=$3&tgp_class_id=$4&action=classSignUp&option=Full [L]
+	RewriteRule ^program-([0-9]+)/category-([0-9]+)/class-group-([0-9]+)/class-([0-9]+)/classSignUp/Full/child/step1?$ 	index.php?tgp_program_id=$1&tgp_category_id=$2&tgp_class_title=$3&tgp_class_id=$4&action=classSignChildStep1&option=Full [L]
+	
+	RewriteRule ^program-([0-9]+)/category-([0-9]+)/class-group-([0-9]+)/class-([0-9]+)/classSignUp/First?$ 			index.php?tgp_program_id=$1&tgp_category_id=$2&tgp_class_title=$3&tgp_class_id=$4&action=classSignUp&option=First [L]
+	RewriteRule ^program-([0-9]+)/category-([0-9]+)/class-group-([0-9]+)/class-([0-9]+)/classSignUp/Last?$ 				index.php?tgp_program_id=$1&tgp_category_id=$2&tgp_class_title=$3&tgp_class_id=$4&action=classSignUp&option=Last [L]
+	RewriteRule ^program-([0-9]+)/category-([0-9]+)/class-group-([0-9]+)/class-([0-9]+)/classSignUp/Last/Step1?$ 		index.php?tgp_program_id=$1&tgp_category_id=$2&tgp_class_title=$3&tgp_class_id=$4&action=step1&option=Last [L]
+	
+	RewriteRule ^cart/?$ 							index.php?action=cart [L]
+
+	RewriteRule ^membership/([0-9]+)?$ 				index.php?tgp_membership_id=$1&action=membership [L]
+	RewriteRule ^membership-([0-9]+)/addAttribute?$ index.php?tgp_membership_id=$1&action=addAttribute [L]
+	
+	RewriteRule ^membership-([0-9]+)/addFeature?$ 	index.php?tgp_membership_id=$1&action=addFeature [L]
+	
+	
+	RewriteRule ^feature/([0-9]+)?$ 				index.php?tgp_feature_id=$1&action=feature [L]
+	
+	RewriteRule ^program-info/([0-9]+)?$ 			index.php?tgp_program_id=$1&action=viewProgram [L]
+	
+	#Rewrite add a program/	
+	RewriteRule ^add-program/?$ 					index.php?action=addProgram [L]
+	
+	#Rewrite add a category in a specific program
+	RewriteRule ^program-([0-9]+)/add-category/?$ 	index.php?tgp_program_id=$1&action=addCategory [L]
+	
+	#Rewrite add a class title in a specific category/
+	RewriteRule ^program-([0-9]+)/category-([0-9]+)/add-classTitle/?$ 						index.php?tgp_program_id=$1&tgp_category_id=$2&action=addClassTitle [L]
+	
+	#OPEN PLAY
+	RewriteRule ^program-([0-9]+)/category-([0-9]+)/class-group-([0-9]+)/addClassPackage?$ 	index.php?tgp_program_id=$1&tgp_category_id=$2&tgp_class_group_id=$3&action=addClassPackages [L]
+	RewriteRule ^program-([0-9]+)/category-([0-9]+)/open-play/([0-9]+)?$ 					index.php?tgp_program_id=$1&tgp_category_id=$2&tgp_class_group_id=$3&action=publicOpenPlay [L]
+		
+	RewriteRule ^openplay-([0-9]+)/register/package-([0-9]+)/season-([0-9]+)?$ 				index.php?tgp_openplay_id=$1&tgp_package_id=$2&tgp_season_id=$3&action=openPlayRegister [L]
+	RewriteRule ^openplay-([0-9]+)/register/package-([0-9]+)/step1?$ 						index.php?tgp_openplay_id=$1&tgp_openplay_package=$s2&action=openPlayRegistrationStep1 [L]
+	RewriteRule ^openplay-([0-9]+)/register/package-([0-9]+)/step2?$ 						index.php?tgp_openplay_id=$1&tgp_openplay_package=$s2&action=openPlayRegistrationStep2 [L]
+	RewriteRule ^openplay-([0-9]+)/register/package-([0-9]+)/step3?$ 						index.php?tgp_openplay_id=$1&tgp_openplay_package=$s2&action=openPlayRegistrationStep3 [L]
+	RewriteRule ^openplay-([0-9]+)/register/package-([0-9]+)/final?$ 						index.php?tgp_openplay_id=$1&tgp_openplay_package=$s2&action=openPlayRegistrationFinal [L]
+	RewriteRule ^openplay-([0-9]+)/register/package-([0-9]+)/complete?$ 					index.php?tgp_openplay_id=$1&tgp_openplay_package=$s2&action=openPlayComplete [L]
+	
+	#RewriteRule viewing a program and a category
+	RewriteRule ^program-([0-9]+)/category-info/([0-9]+)?$ 									index.php?tgp_program_id=$1&tgp_category_id=$2&action=categoryView [L]
+	
+	#Rewrite viewing a program and a category
+	RewriteRule ^program-([0-9]+)/category-([0-9]+)/class-group-([0-9]+)/class-info/([0-9]+)?$ 					index.php?tgp_program_id=$1&tgp_category_id=$2&tgp_class_group_id=$3&tgp_class_id=$4&action=classView [L]
+	RewriteRule ^program-([0-9]+)/category-([0-9]+)/class-group-([0-9]+)/class-([0-9]+)/addChild/?$ 			index.php?tgp_program_id=$1&tgp_category_id=$2&tgp_class_group_id=$3&tgp_class_id=$4&action=addChild [L]
+	RewriteRule ^program-([0-9]+)/category-([0-9]+)/class-group-([0-9]+)/class-([0-9]+)/classSignUp?$ 			index.php?tgp_program_id=$1&tgp_category_id=$2&tgp_class_group_id=$3&tgp_class_id=$4&action=classSignUp [L]
+	RewriteRule ^program-([0-9]+)/category-([0-9]+)/class-group-([0-9]+)/class-([0-9]+)/addChildren/?$ 			index.php?tgp_program_id=$1&tgp_category_id=$2&tgp_class_id=$3&action=addChildren [L]
+	RewriteRule ^program-([0-9]+)/category-([0-9]+)/class-group-([0-9]+)/class-([0-9]+)/addChildFromFile/?$ 	index.php?tgp_program_id=$1&tgp_category_id=$2&tgp_class_id=$3&action=addChildFromFile [L]
+	
+	RewriteRule ^program-([0-9]+)/category-([0-9]+)/class-group-([0-9]+)/class-([0-9]+)/student-info/([0-9]+)?$ 				index.php?tgp_program_id=$1&tgp_category_id=$2&tgp_class_id=$3&tgp_student_id=$4&action=student [L]
+	RewriteRule ^program-([0-9]+)/category-([0-9]+)/class-group-([0-9]+)/class-([0-9]+)/student-([0-9]+)/edit/contactinfo?$ 	index.php?tgp_program_id=$1&tgp_category_id=$2&tgp_class_id=$3&tgp_student_id=$4&action=student&edit=contactinfo [L]
+	RewriteRule ^program-([0-9]+)/category-([0-9]+)/class-group-([0-9]+)/class-([0-9]+)/student-([0-9]+)/edit/address?$ 		index.php?tgp_program_id=$1&tgp_category_id=$2&tgp_class_id=$3&tgp_student_id=$4&action=student&edit=address [L]
+	RewriteRule ^program-([0-9]+)/category-([0-9]+)/class-group-([0-9]+)/class-([0-9]+)/student-([0-9]+)/edit/emergency?$ 		index.php?tgp_program_id=$1&tgp_category_id=$2&tgp_class_id=$3&tgp_student_id=$4&action=student&edit=emergency [L]
+	RewriteRule ^program-([0-9]+)/category-([0-9]+)/class-group-([0-9]+)/class-([0-9]+)/student-([0-9]+)/edit/school?$ 			index.php?tgp_program_id=$1&tgp_category_id=$2&tgp_class_id=$3&tgp_student_id=$4&action=student&edit=school [L]
+	RewriteRule ^program-([0-9]+)/category-([0-9]+)/class-group-([0-9]+)/class-([0-9]+)/student-([0-9]+)/edit/caregiver?$ 		index.php?tgp_program_id=$1&tgp_category_id=$2&tgp_class_id=$3&tgp_student_id=$4&action=student&edit=caregiver [L]
+	RewriteRule ^program-([0-9]+)/category-([0-9]+)/class-group/([0-9]+)?$ 														index.php?tgp_program_id=$1&tgp_category_id=$2&tgp_class_group_id=$3&action=class_groupView [L]
+	RewriteRule ^program-([0-9]+)/category-([0-9]+)/class-group-([0-9]+)/add-class/?$ 											index.php?tgp_program_id=$1&tgp_category_id=$2&tgp_class_group_id=$3&action=addClass [L]
+
+	#Open Plays Information
+	RewriteRule ^open-plays/?$ 										index.php?action=openPlays [L]
+	RewriteRule ^open-plays/([0-9]+)?$ 								index.php?tgp_openplay_id=$1&action=adminopenPlay [L]
+	RewriteRule ^open-plays-([0-9]+)/attendance?$ 					index.php?tgp_openplay_id=$1&action=openPlayAttendance [L]
+	RewriteRule ^open-plays-([0-9]+)/class-([0-9]+)/attendance?$ 	index.php?tgp_openplay_id=$1&tgp_class_id=$2&action=openPlayClassAttendance [L]
+	RewriteRule ^open-plays-([0-9]+)/student-([0-9]+)/history?$ 	index.php?tgp_openplay_id=$1&tgp_student_id=$2&action=openPlayStudentHistory [L]
+
+	
+	#Rewrite about the classes for a month
+	RewriteRule ^month/([0-9]+)/([0-9]+)?$ 							index.php?tgp_month=$1&tgp_year=$2&action=month [L]
+	
+	#Rewrite about the classes for a day
+	RewriteRule ^day-info/([0-9]+)-([0-9]+)-([0-9]+)?$ 				index.php?tgp_day=$1&tgp_month=$2&tgp_year=$3&action=day_classes [L]
+	
+</IfModule>
+
+# Set the default 500 page for Apache errors
+#ErrorDocument 500 /TheGymParkSystem/500.php
+ErrorDocument 500 /500.php
+
+# Set the default 404 page
+#ErrorDocument 404 /TheGymParkSystem/404.php
+ErrorDocument 404 /404.php

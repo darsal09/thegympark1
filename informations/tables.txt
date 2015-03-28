@@ -1,0 +1,38 @@
+Class Management System
+
+What I will do upto my most understanding from what Peter explains to me in our meetings:
+
+1.Design the Database
+4 Tables:
+Create Table Class
+{
+	id int autoincrement primary key,
+	day varchar(9),
+	time timestamp,
+	ageGroup varchar(20),
+	sdate date,
+	edate date,
+	price double,
+	gender varchar(6) DEFAULT Mixed
+	type varchar(30),
+	created date,
+	semester varchar(9)
+}
+Create Table Class_Type
+{
+	id int autoincrement primary key,
+	title varchar(100),
+	description text,
+	class_id int
+}
+Create Table Instructors
+{
+	id int autoincrement premiray key,
+	class_id int,
+	type
+}
+2.Build the functionality to add, modefy classes into the database.
+3.Keep a history of when things are added modefied and by whom they are modefied.
+
+
+

@@ -1,0 +1,92 @@
+
+CREATE PROCEDURE tgp_membership_add_feature( IN msID INT, IN feature VARCHAR( 250 ), IN inQuantity INT )
+BEGIN
+	INSERT INTO tgp_membership_features ( title, membership_type, quantity )
+	VALUES( feature, msID, inQuantity );
+END$$
+
+CREATE PROCEDURE tgp_add_feature( IN fTitle VARCHAR( 250 ), IN fQuantity INT )
+BEGIN
+	INSERT INTO tgp_membership_features ( title, quantity )
+	VALUES( fTitle, fQuantity );
+END$$
+
+CREATE PROCEDURE tgp_edit_feature( IN featureID INT, IN fTitle VARCHAR( 250 ), IN fQuantity INT )
+BEGIN
+	UPDATE tgp_membership_features 
+	SET title = fTitle, quantity = fQuantity
+	WHERE id = featuredID;
+END$$
+
+CREATE PROCEDURE tgp_get_features( IN mID INT )
+BEGIN
+	SELECT * 
+	FROM tgp_membership_features
+	WHERE id NOT IN( SELECT attribute_id FROM tgp_membership_attributes WHERE membership_id = mID  )
+	ORDER BY title;
+END$$
+
+CREATE PROCEDURE tgp_get_membership_feature( IN fID INT )
+BEGIN
+	SELECT *
+	FROM tgp_membership_features 
+	WHERE id = fID;
+END$$
+
+CREATE PROCEDURE tgp_get_membership_features( IN mID INT )
+BEGIN
+	SELECT tmf.*
+	FROM tgp_membership_attributes tma
+	INNER JOIN tgp_membership_features tmf ON tmf.id = tma.attribute_id
+	WHERE tma.membership_id = mID
+	ORDER BY tmf.title;
+END$$
+
+CREATE PROCEDURE tgp_get_memberships( )
+BEGIN
+	SELECT tm.*, tmp.type
+	FROM tgp_memberships tm
+	INNER JOIN tgp_membership_types tmp ON tmp.id = tm.type_id
+	WHERE tm.active = 1
+	ORDER BY tm.plan_id, tm.price, tm.type_id, tm.title;
+END$$
+
+CREATE PROCEDURE tgp_get_membership( IN msID INT )
+BEGIN
+	SELECT tm.*, tmp.title AS plan, tmp.description
+	FROM tgp_memberships tm
+	INNER JOIN tgp_membership_plans tmp ON tmp.id = tm.plan_id	
+	WHERE tm.id = msID;
+END$$
+
+CREATE PROCEDURE tgp_get_membership_attributes( IN msID INT )
+BEGIN
+	SELECT tmf.*
+	FROM tgp_membership_attributes tma
+	INNER JOIN tgp_membership_features tmf ON tmf.id = tma.attribute_id
+	WHERE tma.membership_id = msID
+	ORDER BY title;
+END$$
+
+CREATE PROCEDURE tgp_membership_add_attribute( IN msID INT, IN attributeID INT )
+BEGIN
+	INSERT INTO tgp_membership_attributes(membership_id, attribute_id ) VALUES( msID, attributeID );
+END$$
+
+CREATE PROCEDURE tgp_membership_get_attributes( IN msID INT )
+BEGIN
+	SELECT tmf.*
+	FROM tgp_membership_attributes tma
+	INNER JOIN tgp_membership_features tmf ON tmf.id = tma.attribute_id
+	WHERE tma.membership_id = msID AND tma.type = 'Fixed'
+	ORDER BY tmf.title;
+END$$
+
+CREATE PROCEDURE tgp_membership_get_attributes_options( IN msID INT )
+BEGIN
+	SELECT tmf.*
+	FROM tgp_membership_attributes tma
+	INNER JOIN tgp_membership_features tmf ON tmf.id = tma.attribute_id
+	WHERE tma.membership_id = msID AND tma.type = 'Option'
+	ORDER BY tmf.title;
+END$$

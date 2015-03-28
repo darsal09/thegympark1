@@ -1,0 +1,266 @@
+
+DROP PROCEDURE tgp_newsletter_add$$
+CREATE PROCEDURE tgp_newsletter_add( IN nTitle VARCHAR( 250 ), IN nMessage LONGTEXT )
+BEGIN
+	INSERT INTO
+	tgp_newsletters( title, message )
+	VALUES( nTitle, nMessage );
+	
+	SELECT LAST_INSERT_ID();
+END$$
+
+DROP PROCEDURE tgp_newsletter_add_filter$$
+CREATE PROCEDURE tgp_newsletter_add_filter( IN fTitle VARCHAR( 100 ), IN fDesc TINYTEXT )
+BEGIN
+	DECLARE filterExist INT;
+	
+	SELECT COUNT(*) FROM tgp_newsletter_filters WHERE title = fTitle INTO filterExist;
+	
+	IF filterExist = 0 THEN
+		INSERT INTO
+		tgp_newsletter_filters( title, descriptoin )
+		VALUES( fTitle, fDesc );
+		
+		SELECT 1;
+	ELSE
+		SELECT 0;
+	END IF;
+	
+END$$
+
+DROP PROCEDURE tgp_delete_newsletter$$
+CREATE PROCEDURE tgp_delete_newsletter( IN nID INT )
+BEGIN
+	DELETE FROM tgp_newsletters
+	WHERE newsletter_id = nID;
+END$$
+
+DROP PROCEDURE tgp_newsletter_delete_category$$
+CREATE PROCEDURE tgp_newsletter_delete_category( IN cID INT )
+BEGIN
+	DECLARE membersIN INT;
+	SELECT COUNT( user_id ) 
+	FROM tgp_newsletter_user_categories
+	WHERE status = 1 AND category_id = cID INTO membersIN;
+	
+	IF membersIN < 1 THEN
+		DELETE FROM tgp_newsletter_categories
+		WHERE id = cID;
+		
+		select true;
+	ELSE
+		SELECT false;
+	END IF;
+	
+END$$
+
+DROP PROCEDURE tgp_newsletter_add_category$$
+CREATE PROCEDURE tgp_newsletter_add_category( IN cTitle VARCHAR( 250 ), IN cDesc TEXT, IN cFilterID INT )
+BEGIN
+	DECLARE categoryIN INT;
+	
+	SELECT COUNT( id ) FROM tgp_newsletter_categories WHERE title = cTitle INTO categoryIN;
+	
+	IF categoryIN < 1 THEN
+		INSERT INTO tgp_newsletter_categories( title, description, filter_id )
+		VALUES( cTitle, cDesc, cFilterID );
+		
+		SELECT 0;
+	ELSE
+		SELECT categoryIN;
+	END IF;
+END$$
+
+DROP PROCEDURE tgp_newsletter_category_add_existing_user$$
+CREATE PROCEDURE tgp_newsletter_category_add_existing_user( IN cID INT, IN mID INT )
+BEGIN
+	DECLARE memberIN INT;
+	
+	SELECT COUNT( id ) 
+	FROM tgp_newsletter_user_categories
+	WHERE category_id = cID AND user_id = mID 
+	INTO memberIN;
+	
+	IF memberIN < 1 THEN
+		INSERT INTO
+		tgp_newsletter_user_categories( category_id, user_id )
+		VALUES( cID, mID );
+	ELSE
+		SELECT memberIN;
+	END IF;
+END$$
+
+DROP PROCEDURE tgp_newsletter_add_new_member$$
+CREATE PROCEDURE tgp_newsletter_add_new_member( IN mName VARCHAR( 150 ), IN mEmail VARCHAR( 250 ), IN cID INT )
+BEGIN
+	DECLARE memberID INT;
+	DECLARE memberIN INT;
+	
+	SELECT id 
+	FROM tgp_users 
+	WHERE uEmail = mEmail 
+	INTO memberID;
+	
+	IF memberID > 0 THEN
+	
+		SELECT COUNT( user_id ) 
+		FROM tgp_newsletter_user_categories 
+		WHERE user_id = memberID 
+		INTO memberIN;
+		
+		IF memberIN < 1 THEN
+			IF cID > 0 THEN
+				INSERT 
+				INTO tgp_newsletter_user_categories( user_id, category_id )
+				VALUES( memberID, cID );
+			ELSE
+				INSERT 
+				INTO tgp_newsletter_user_categories( user_id, category_id )
+				VALUES( memberID, 1 );				
+			END IF;
+		END IF;
+		
+	ELSE
+		INSERT INTO tgp_users( uName, uEmail, type)
+		VALUES( mName, mEmail, 'N' );
+		
+		IF cID > 0 THEN
+			INSERT INTO tgp_newsletter_user_categories( user_id, category_id )
+			VALUES( LAST_INSERT_ID(), cID );
+		ELSE
+			INSERT INTO tgp_newsletter_user_categories( user_id, category_id )
+			VALUES( LAST_INSERT_ID(), 1);
+		END IF;
+	END IF;
+END$$
+
+DROP PROCEDURE tgp_newsletter_add_member$$
+CREATE PROCEDURE tgp_newsletter_add_member( IN mID INT )
+BEGIN
+	DECLARE memberIN INT;
+	
+	SELECT COUNT( user_id ) FROM tgp_newsletter_user_categories WHERE category_id = 1 AND user_id = mID INTO memberIN;
+	
+	IF memberIN < 1 THEN
+		INSERT INTO tgp_newsletter_user_categories ( category_id, user_id )
+		VALUES( 1, mID );
+	ELSE
+		SELECT memberIN;
+	END IF;
+END$$
+
+
+CREATE PROCEDURE tgp_newsletter_update( IN nID INT, IN nTitle VARCHAR( 250 ), IN nMessage LONGTEXT )
+BEGIN
+	UPDATE tgp_newsletters
+	SET title = nTitle, message = nMessage
+	WHERE newsletter_id = nID;
+END$$
+
+CREATE PROCEDURE tgp_get_newsletter( IN nID INT )
+BEGIN
+	SELECT *
+	FROM tgp_newsletters
+	WHERE newsletter_id = nID;
+END$$
+
+CREATE PROCEDURE tgp_get_newsletters()
+BEGIN
+	SELECT *
+	FROM tgp_newsletters
+	ORDER BY title;
+END$$
+
+CREATE PROCEDURE tgp_get_newsletter_category( IN cID INT )
+BEGIN
+	SELECT *
+	FROM tgp_newsletter_categories
+	WHERE id = cID;
+END$$
+
+DROP PROCEDURE tgp_get_newsletter_category_member$$
+CREATE PROCEDURE tgp_get_newsletter_category_member( IN cID INT, IN mID INT )
+BEGIN
+	SELECT tu.*
+	FROM tgp_newsletter_user_categories tnuc
+	INNER JOIN tgp_users tu ON tu.id = tnuc.user_id
+	WHERE tnuc.user_id = mID AND tnuc.category_id = cID;
+END$$
+
+DROP PROCEDURE tgp_get_newsletter_category_members$$
+CREATE PROCEDURE tgp_get_newsletter_category_members( IN cID INT )
+BEGIN
+	SELECT tu.uName, tu.uEmail, tu.id
+	FROM tgp_newsletter_user_categories tnuc
+	INNER JOIN tgp_users tu ON tu.id = tnuc.user_id
+	WHERE tnuc.category_id = cID AND tnuc.status = 1
+	ORDER BY tu.uName, tu.uEmail;
+END$$
+
+DROP PROCEDURE tgp_get_newsletter_category_non_members$$
+CREATE PROCEDURE tgp_get_newsletter_category_non_members( IN cID INT )
+BEGIN
+	SELECT tu.*
+	FROM tgp_newsletter_user_categories tnuc
+	INNER JOIN tgp_users tu ON tu.id = tnuc.user_id
+	WHERE tnuc.user_id NOT IN( SELECT user_id FROM tgp_newsletter_user_categories WHERE category_id = cID AND status = 1)
+	ORDER BY tu.uName, tu.uEmail;
+END$$
+
+DROP PROCEDURE tgp_get_newsletter_categories$$
+CREATE PROCEDURE tgp_get_newsletter_categories()
+BEGIN
+	SELECT *
+	FROM tgp_newsletter_categories
+	ORDER BY title;
+END$$
+
+DROP PROCEDURE tgp_get_newsletters_filters$$
+CREATE PROCEDURE tgp_get_newsletters_filters()
+BEGIN
+	SELECT *
+	FROM tgp_newsletter_filters
+	ORDER BY title;
+END$$
+
+DROP PROCEDURE tgp_get_newsletter_members$$
+CREATE PROCEDURE tgp_get_newsletter_members()
+BEGIN
+	SELECT *
+	FROM tgp_newsletter_user_categories tnuc
+	INNER JOIN tgp_users tu ON tu.id = tnuc.user_id
+	WHERE tnuc.status = 1
+	ORDER BY tu.uName;
+END$$
+
+DROP PROCEDURE tgp_get_newsletter_non_members$$
+CREATE PROCEDURE tgp_get_newsletter_non_members()
+BEGIN
+	SELECT *
+	FROM tgp_users tu
+	WHERE id NOT IN ( SELECT user_id FROM tgp_newsletter_user_categories WHERE category_id = 1 )
+	ORDER BY uName;
+END$$
+
+DROP PROCEDURE tgp_newsletter_remove_category_member$$
+CREATE PROCEDURE tgp_newsletter_remove_category_member( IN cID INT, IN mID INT )
+BEGIN
+	UPDATE tgp_newsletter_user_categories
+	SET status = '0'
+	WHERE category_id = cID AND user_id = mID;
+END$$
+
+DROP PROCEDURE tgp_newsletter_update_filter_description$$
+CREATE PROCEDURE tgp_newsletter_update_filter_description( IN fID INT, IN fDesc TINYTEXT )
+BEGIN
+	UPDATE tgp_newsletter_filters
+	SET description = fDesc
+	WHERE id = fID;
+END$$
+
+DROP PROCEDURE tgp_newsletter_update_sent_to_member$$
+CREATE PROCEDURE tgp_newsletter_update_sent_to_member( IN nID INT, IN mID INT )
+BEGIN
+	INSERT INTO tgp_newsletter_sent( newsletter_id, member_id )
+	VALUES( nID, mID );
+END$$

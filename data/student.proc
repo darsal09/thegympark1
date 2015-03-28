@@ -1,0 +1,118 @@
+
+DROP PROCEDURE tgp_add_student_class$$
+CREATE PROCEDURE tgp_add_student_class( IN sID INT, IN cID INT )
+BEGIN
+	INSERT INTO 
+	tgp_class_students( student_id, class_id )
+	VALUES( sID, cID );
+	
+	SELECT LAST_INSERT_ID();
+END$$
+
+DROP PROCEDURE tgp_student_update_address$$
+CREATE PROCEDURE tgp_student_update_address( IN sID INT, IN aID INT, IN aStreet VARCHAR( 250 ), IN aCity VARCHAR( 50 ), IN aState VARCHAR( 2 ), IN aZip VARCHAR( 5 ) )
+BEGIN
+	UPDATE tgp_address 
+	SET street = aStreet, city = aCity, state = aState, zip = aZip
+	WHERE student_id = sID AND id = aID;
+END$$
+
+DROP PROCEDURE tgp_student_update_caregiver$$
+CREATE PROCEDURE tgp_student_update_caregiver( IN sID INT, IN cID INT, IN cName VARCHAR( 150 ), IN cPhone VARCHAR( 20 ) )
+BEGIN
+	UPDATE tgp_nannies
+	SET name = cName, phone = cPhone
+	WHERE student_id = sID AND nanny_id = cID;
+END$$
+
+DROP PROCEDURE tgp_student_update_contact_info$$
+CREATE PROCEDURE tgp_student_update_contact_info( IN sID INT, IN cID INT, IN cHPhone VARCHAR( 20 ), IN cCPhone VARCHAR( 20 ), IN cEmail VARCHAR( 150 ) )
+BEGIN
+	UPDATE tgp_student_contact_info
+	SET homePHone = cHPhone, cellPhone = cCPhone, email = cEmail
+	WHERE student_id = sID AND id = cID;
+END$$
+
+DROP PROCEDURE tgp_student_update_emergency_contact$$
+CREATE PROCEDURE tgp_student_update_emergency_contact( IN sID INT, IN eID INT, IN eName VARCHAR( 150 ), IN eRelation VARCHAR( 20 ), IN eHPhone VARCHAR( 20 ), IN eWPHone VARCHAR( 20 ), IN eCPhone VARCHAR( 20 ) )
+BEGIN
+	UPDATE tgp_emergency_contact
+	SET name = eName, relation = eRelation, homePhone = eHPhone, workPhone = eWPhone, cellPhone = eCPhone
+	WHERE student_id = sID AND id = eID;
+END$$
+
+DROP PROCEDURE tgp_student_get_info$$
+CREATE PROCEDURE tgp_student_get_info( IN sID INT )
+BEGIN
+	SELECT ts.*, tsci.email, tsp.email AS parent_email 
+	FROM tgp_family ts
+	LEFT JOIN tgp_student_contact_info tsci ON tsci.student_id = ts.id
+	LEFT JOIN tgp_parents tsp ON tsp.student_id = ts.id
+	WHERE ts.id = sID;
+END$$
+
+
+DROP PROCEDURE tgp_student_update_info$$
+CREATE PROCEDURE tgp_student_update_info( IN sID INT, IN sFirst VARCHAR( 50 ), IN sLast VARCHAR( 50 ), IN sDOB DATE, IN sGender CHAR( 1 ) )
+BEGIN
+	UPDATE tgp_students
+	SET first = sFirst, last = sLast, dob = sDOB, gender = sGender
+	WHERE id = sID;
+END$$
+
+DROP PROCEDURE tgp_student_add_caregiver$$
+CREATE PROCEDURE tgp_student_add_caregiver( IN sID INT, IN cName VARCHAR( 150 ), IN cPhone VARCHAR( 20 ) )
+BEGIN
+	INSERT INTO
+	tgp_nannies( student_id, name, phone )
+	VALUES( sID, cName, cPhone );
+	
+	SELECT LAST_INSERT_ID();
+END$$
+
+DROP PROCEDURE tgp_student_add_contact_info$$
+CREATE PROCEDURE tgp_student_add_contact_info( IN sID INT, IN hPhone VARCHAR( 20 ), IN cPhone VARCHAR( 20 ), IN sEMail VARCHAR( 150 ) )
+BEGIN
+	INSERT INTO 
+	tgp_student_contact_info( student_id, homePhone, cellPhone, email )
+	VALUES( sID, hPhone, cPhone, sEMail );
+	
+	SELECT LAST_INSERT_ID();
+END$$
+
+
+DROP PROCEDURE tgp_student_add_parent$$
+CREATE PROCEDURE tgp_student_add_parent( IN sID INT, IN sName VARCHAR( 150 ), IN shPhone VARCHAR( 20 ), IN swPhone VARCHAR( 20 ), IN scPhone VARCHAR( 20 ), IN sEmail VARCHAR( 150 ) )
+BEGIN
+	INSERT INTO 
+	tgp_parents( student_id, name, homePhone, workPhone, cellPhone, email )
+	VALUES( sID, sName, shPhone, swPhone, scPhone, sEmail );
+
+	SELECT LAST_INSERT_ID();
+END$$
+
+DROP PROCEDURE tgp_student_add_school$$
+CREATE PROCEDURE tgp_student_add_school( IN sID INT, IN sName VARCHAR( 100 ), IN sGrade VARCHAR( 50 ) )
+BEGIN
+	INSERT INTO
+	tgp_student_school( student_id, name, grade )
+	VALUES( sID, sName, sGrade );
+	
+	SELECT LAST_INSERT_ID();
+END$$
+
+DROP PROCEDURE tgp_student_update_parent$$
+CREATE PROCEDURE tgp_student_update_parent( IN sID INT, pID INT, IN pName VARCHAR( 150 ), IN pHPhone VARCHAR( 20 ), IN pWPhone VARCHAR( 20 ), IN pCPhone VARCHAR( 20 ), IN pEmail VARCHAR( 150 ) )
+BEGIN
+	UPDATE tgp_parents 
+	SET name = pName, homePhone = pHPhone, workPhone = pWPhone, cellPhone = pCPhone, email = pEmail
+	WHERE student_id = sID AND parent_id = pID;
+END$$
+
+DROP PROCEDURE tgp_student_update_school_info$$
+CREATE PROCEDURE tgp_student_update_school_info( IN sID INT, IN siID INT, IN sName VARCHAR( 100 ), IN sGrade VARCHAR( 50 ) )
+BEGIN
+	UPDATE tgp_student_school
+	SET name = sName, grade = sGrade, updateOn = NOW()
+	WHERE student_id = sID AND id = siID;
+END$$

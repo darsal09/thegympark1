@@ -1,0 +1,82 @@
+
+//insert category
+
+DROP PROCEDURE tgp_add_category$$
+CREATE PROCEDURE tgp_add_category( IN inTitle VARCHAR( 100 ), IN inDescription TEXT, IN inProgramID INT, IN hexColor VARCHAR(7) )
+BEGIN
+	INSERT INTO tgp_classes_categories ( title, description, program_id, hexColor )
+	VALUES( inTitle, inDescription, inProgramID, hexColor );
+END$$
+
+DROP PROCEDURE tgp_update_category$$
+CREATE PROCEDURE tgp_update_category( IN cID INT, IN pID INT, IN cTitle VARCHAR( 150 ), IN cDescription TEXT, IN hexColor VARCHAR( 7 ) )
+BEGIN
+	UPDATE tgp_classes_categories
+	SET title = cTitle, description = cDescription, program_id = pID, hexColor = hexColor
+	WHERE cc_id = cID;
+END$$
+
+
+CREATE PROCEDURE tgp_get_categories()
+BEGIN
+	SELECT *
+	FROM tgp_classes_categories
+	ORDER BY title;
+END$$
+
+DROP PROCEDURE tgp_get_category$$
+CREATE PROCEDURE tgp_get_category( IN categoryID INT )
+BEGIN
+	SELECT * 
+	FROM tgp_classes_categories
+	WHERE cc_id = categoryID;
+END$$
+
+CREATE PROCEDURE tgp_get_category_classes( IN categoryID INT )
+BEGIN 
+	SELECT c.*, ct.title AS title
+	FROM tgp_classes c
+	INNER JOIN class_titles ct ON ct.id = c.title_id
+	WHERE c.category_id = categoryID
+	ORDER BY c.weekday, c.start_time, ct.title;
+END$$
+
+//This procedure would display the freatured classes in a category
+CREATE PROCEDURE tgp_get_category_featured_classes( IN categoryID INT )
+BEGIN
+	SELECT c.*, ct.title AS title
+	FROM tgp_classes c
+	INNER JOIN class_titles ct ON ct.id = c.title_id
+	WHERE c.tgp_class_category_id = categoryID AND c.category_featured = 'Y'
+	ORDER BY c.weekday, c.start_time, ct.title;
+END$$
+
+CREATE PROCEDURE tgp_get_category_class_titles( IN categoryID INT )
+BEGIN
+	SELECT *
+	FROM class_titles
+	WHERE category_id = categoryID
+	ORDER BY title;
+END$$
+
+//it only deletes a category that doesn't have class in it
+DROP PROCEDURE tgp_delete_category$$
+CREATE PROCEDURE tgp_delete_category( IN categoryID INT )
+BEGIN
+	DECLARE classTitleInCategory INT;
+
+	SELECT COUNT( * ) 
+	FROM class_titles
+	WHERE category_id = categoryID
+	INTO classTitleInCategory;
+
+	IF classTitleInCategory = 0 THEN
+
+		DELETE FROM tgp_classes_categories WHERE cc_id = categoryID;
+
+		SELECT 1;
+	ELSE
+		SELECT -1;
+	END IF;
+END$$
+
